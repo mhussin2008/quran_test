@@ -21,7 +21,8 @@ class qaryDataEntry extends StatelessWidget {
                 keyboardType: TextInputType.text,
                 textDirection: TextDirection.rtl,
                 controller: nameController,
-              ),
+                decoration: const InputDecoration(border: OutlineInputBorder()
+              )),
               SizedBox(height: 40,),
               Text('عمر الطالب'),
               SizedBox(height: 20,),
@@ -29,7 +30,8 @@ class qaryDataEntry extends StatelessWidget {
                 keyboardType: TextInputType.number,
                 textDirection: TextDirection.rtl,
                 controller: ageController,
-              ),
+                decoration: const InputDecoration(border: OutlineInputBorder()
+              )),
               SizedBox(height: 20,),
               OutlinedButton(
                   onPressed: (){
