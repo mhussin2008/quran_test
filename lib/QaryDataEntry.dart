@@ -80,7 +80,9 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                         FocusManager.instance.primaryFocus?.unfocus();
                         print(QaryList.toString());
                           print(QaryList.length.toDouble());
-                         dataGridController.scrollToRow(QaryList.length.toDouble());
+                          dataGridController.refreshRow(QaryList.length);
+                         //dataGridController.scrollToRow(QaryList.length.toDouble());
+
 
 
                         // Navigator.pop(context);
@@ -97,28 +99,33 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                     },
                     child: Text('حفظ البيانات')),
                 SfDataGrid(
-                  isScrollbarAlwaysShown: true,
-                  gridLinesVisibility: GridLinesVisibility.both,
-                  headerGridLinesVisibility: GridLinesVisibility.both,
-                  controller: dataGridController,
-                  source: dataSource,
-                  columns: <GridColumn>[
-                    GridColumn(
-                        columnName: 'name',
-                        label: Container(
-                            padding: EdgeInsets.all(16.0),
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              'name',
-                            ))),
-                    GridColumn(
-                        columnName: 'age',
-                        label: Container(
-                            padding: EdgeInsets.all(16.0),
-                            alignment: Alignment.centerLeft,
-                            child: Text('age')))
-                  ],
-                ),
+                columnWidthMode: ColumnWidthMode.fill,
+                isScrollbarAlwaysShown: true,
+                gridLinesVisibility: GridLinesVisibility.both,
+                headerGridLinesVisibility: GridLinesVisibility.both,
+                controller: dataGridController,
+                source: dataSource,
+                columns: <GridColumn>[
+                  GridColumn(
+
+                      columnName: 'name',
+                      label: Container(
+
+                          padding: EdgeInsets.all(16.0),
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                           'اسم الطالب',
+
+                          ))),
+                  GridColumn(
+                      columnName: 'age',
+                      label: Container(
+                          padding: EdgeInsets.all(16.0),
+                          alignment: Alignment.centerRight,
+                          child: Text('عمره  ')))
+                ],
+                  ),
+                Container(width: 20,color: Colors.green,),
                 OutlinedButton(
                     onPressed: () {
                       Navigator.pop(context);
