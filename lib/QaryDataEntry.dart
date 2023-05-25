@@ -3,6 +3,7 @@ import 'package:quran_test/qaryData.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'QaryDataSource.dart';
+import 'DialogScreen.dart';
 
 class qaryDataEntry extends StatefulWidget {
   qaryDataEntry({Key? key}) : super(key: key);
@@ -70,9 +71,9 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                         Fluttertoast.showToast(
                             msg: "تم إضافة بيانات الطالب بنجاح ",
                             toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
+                            gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.cyanAccent,
+                            backgroundColor: Colors.blueAccent,
                             textColor: Colors.white,
                             fontSize: 16.0);
                         nameController.text = '';
@@ -122,15 +123,39 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                       label: Container(
                           padding: EdgeInsets.all(16.0),
                           alignment: Alignment.centerRight,
-                          child: Text('عمره  ')))
-                ],
+                          child: Text('عمر الطالب  ')))
+                ].reversed.toList(),
                   ),
                 Container(width: 20,color: Colors.green,),
-                OutlinedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('عودة الى الشاشة الرئيسية'))
+                Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly ,children: [
+                  OutlinedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('عودة الى الشاشة الرئيسية')),
+
+                  OutlinedButton(
+                      onPressed: () async {
+                        String result= await showDialog(
+                            context: context,
+                            builder: (BuildContext context) => const DialogScreen());
+
+                        print(result);
+                        if(result=='OK'){
+                          print('deleting');
+                          setState(() {
+                            QaryList.clear();
+                          });
+                        }
+
+                      },
+                      child: Text('مسح الجدول بالكامل')),
+
+
+                ],
+
+                ),
+
               ],
             ),
           ),

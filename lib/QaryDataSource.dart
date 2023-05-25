@@ -6,12 +6,14 @@ class QaryDataSource extends DataGridSource {
   QaryDataSource({required List<QaryData> qaryList}) {
     _qaryList = qaryList
         .map<DataGridRow>((e) => DataGridRow(cells: [
-      DataGridCell<String>(columnName: 'name', value: e.qaryName),
+      DataGridCell<String>(
+          columnName: 'name', value: e.qaryName
+      ),
       DataGridCell<int>(
           columnName: 'age', value: e.qaryAge),
 
     ]))
-        .toList();
+        .toList().reversed.toList();
   }
 
   List<DataGridRow>  _qaryList = [];
@@ -19,14 +21,19 @@ class QaryDataSource extends DataGridSource {
   @override
   List<DataGridRow> get rows =>  _qaryList;
 
+
+
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
-    return DataGridRowAdapter(
+       return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
           return Container(
+
             padding: const EdgeInsets.all(16.0),
-            child: Text(dataGridCell.value.toString()),
+            child: Text(
+                textAlign: TextAlign.right,
+                dataGridCell.value.toString()),
           );
-        }).toList());
+        }).toList().reversed.toList()    );
   }
 }

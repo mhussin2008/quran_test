@@ -20,7 +20,7 @@ class startUpScreen extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (BuildContext context) => qaryDataEntry()));
                 },
-                child: Text('بيانات الطالب'))
+                child: Text('بيانات الطلاب'))
           ],
         ),
       ),
