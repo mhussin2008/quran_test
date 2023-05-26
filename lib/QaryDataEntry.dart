@@ -20,6 +20,27 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
   TextEditingController ageController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // WidgetsBinding.instance.addPostFrameCallback((_){
+    //   CheckDbase();
+    // });
+
+
+    CheckDbase().then((value) =>
+    {
+      if (value=='Ok'){
+      GetFromDb().then((value) => {
+        print('Loaded all data')
+
+      })
+    }
+    }
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     DataGridController dataGridController=DataGridController();
@@ -222,7 +243,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     var databasesPath = await getDatabasesPath();
     var dbFilePath = '$databasesPath/qary_dbase.db';
     late Database db;
-    db = await openDatabase('qary_dbase.db');
+    db = await openDatabase(dbFilePath);
     int age=int.parse(ageController.text);
     String line=''' '${nameController.text}', $age ''';
     String insertString =
@@ -231,4 +252,27 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     await db.execute(insertString);
 
   }
+
+
+  Future<void> GetFromDb() async{
+    var databasesPath = await getDatabasesPath();
+    var dbFilePath = '$databasesPath/qary_dbase.db';
+    late Database db;
+    db = await openDatabase(dbFilePath);
+    List<Map<String,dynamic>>? gotlist =
+    await db.database.rawQuery('SELECT * FROM datatable');
+    print(gotlist);
+    if(gotlist.isNotEmpty){
+    QaryList.clear();
+    setState(() {
+      gotlist.forEach((e) {
+        {
+          //QaryList.add(QaryData.fromJson(e));
+         QaryList.add(QaryData.fromFields(e['qaryname'],e['qaryage']));
+      };
+    });
+    print(QaryList);
+  });}
+}
+
 }
