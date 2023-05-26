@@ -175,6 +175,12 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                           setState(() {
                             QaryList.clear();
                           });
+                          CheckDbase().then(
+                                  (value) async {
+                                    if(value=='Ok'){
+                                      await ClearDb();
+                                    };
+                                  });
                         }
 
                       },
@@ -274,5 +280,14 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     print(QaryList);
   });}
 }
+
+  ClearDb() async {
+    var databasesPath = await getDatabasesPath();
+    var dbFilePath = '$databasesPath/qary_dbase.db';
+    late Database db;
+    db = await openDatabase(dbFilePath);
+    await db.database.rawQuery('SELECT * FROM datatable');
+
+  }
 
 }
