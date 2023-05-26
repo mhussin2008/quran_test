@@ -34,6 +34,6 @@ class QaryDataSource extends DataGridSource {
                 textAlign: TextAlign.right,
                 dataGridCell.value.toString()),
           );
-        }).toList().reversed.toList()    );
+        }).toList().reversed.toList());
   }
 }
