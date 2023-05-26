@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:sqflite/sqflite.dart';
 import 'package:quran_test/qaryData.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -14,11 +16,12 @@ class qaryDataEntry extends StatefulWidget {
 
 class _qaryDataEntryState extends State<qaryDataEntry> {
   //QaryDataSource dataSource=QaryDataSource(qaryList: QaryList);
+  TextEditingController nameController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
-    TextEditingController ageController = TextEditingController();
+
     DataGridController dataGridController=DataGridController();
     QaryDataSource dataSource = QaryDataSource(qaryList: QaryList);
     return Scaffold(
@@ -61,13 +64,18 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                   height: 20,
                 ),
                 OutlinedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (nameController.text.isNotEmpty &&
                           ageController.text.isNotEmpty) {
-                        setState(() {
+                        setState(()  {
                           QaryList.add(QaryData.fromFields(nameController.text,
                               int.parse(ageController.text)));
-                        });
+                            });
+                        String retVal=await  CheckDbase();
+                        if (retVal=='Ok'){
+                          print('ok');
+                          await AddtoDb();
+                        }
                         Fluttertoast.showToast(
                             msg: "تم إضافة بيانات الطالب بنجاح ",
                             toastLength: Toast.LENGTH_SHORT,
@@ -160,5 +168,67 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
             ),
           ),
         ));
+  }
+
+  Future<String> CheckDbase() async {
+
+    var databasesPath = await getDatabasesPath();
+    var dbFilePath = '$databasesPath/qary_dbase.db';
+    var dbExists = File(dbFilePath).existsSync();
+    if (dbExists == false) {
+      print('no such database');
+
+    } else {
+
+    }
+    late Database db;
+    db = await openDatabase('qary_dbase.db');
+    if (db.isOpen == false) {
+      print('cant open database');
+      return 'No';
+    }
+    var tables = await db
+        .rawQuery('SELECT * FROM sqlite_master WHERE name="datatable";');
+
+    if (tables.isEmpty) {
+      // Create the table
+      print('no such table');
+      try {
+        await db.execute('''
+        create table datatable (
+        qaryname TEXT NOT NULL UNIQUE ,
+        qaryage INTEGER DEFAULT 0
+       )''');
+      } catch (err) {
+        if (err.toString().contains('DatabaseException') == true) {
+          print(err.toString());
+          return 'No';
+        }
+        //print(err.toString().substring(0,30));
+      }
+    }
+      return 'Ok';
+
+
+
+
+
+
+
+  }
+
+  Future<void> AddtoDb() async {
+
+    var databasesPath = await getDatabasesPath();
+    var dbFilePath = '$databasesPath/qary_dbase.db';
+    late Database db;
+    db = await openDatabase('qary_dbase.db');
+    int age=int.parse(ageController.text);
+    String line=''' '${nameController.text}', $age ''';
+    String insertString =
+    '''INSERT INTO datatable ( qaryname, qaryage) VALUES ( ${line} )''';
+    print(insertString);
+    await db.execute(insertString);
+
   }
 }
