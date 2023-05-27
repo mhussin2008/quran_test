@@ -281,12 +281,15 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
   });}
 }
 
-  ClearDb() async {
+  Future<void> ClearDb() async {
     var databasesPath = await getDatabasesPath();
     var dbFilePath = '$databasesPath/qary_dbase.db';
     late Database db;
     db = await openDatabase(dbFilePath);
-    await db.database.rawQuery('SELECT * FROM datatable');
+    await db.database.rawQuery('DELETE FROM datatable');
+    setState(() {
+
+    });
 
   }
 
