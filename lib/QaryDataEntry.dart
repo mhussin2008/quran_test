@@ -166,6 +166,24 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                 Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly ,children: [
                   OutlinedButton(
 
+                      onPressed: () async {
+                        if(dataGridController.selectedRow != null){
+                          print(dataGridController.selectedRow?.getCells().first.value);
+                          String qname=dataGridController.selectedRow?.getCells().first.value;
+
+                          setState(() {
+                            QaryList.removeWhere(
+                                    (element) => element.qaryName==dataGridController.selectedRow?.getCells().first.value);
+                          });
+                          await DelSrowFromDb(qname);
+
+                        }
+                        //Navigator.pop(context);
+                      },
+                      child: Text('مسح بيانات \n الطالب')),
+
+                  OutlinedButton(
+
                       onPressed: () {
                         if(dataGridController.selectedRow != null){
                           print(dataGridController.selectedRow?.getCells().first.value);
@@ -195,7 +213,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                         }
 
                       },
-                      child: Text('مسح الجدول بالكامل')),
+                      child: Text('مسح الجدول \n بالكامل')),
 
 
                 ],
@@ -307,6 +325,20 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     setState(() {
 
     });
+
+  }
+
+
+  Future<void> DelSrowFromDb(String qname) async {
+
+    var databasesPath = await getDatabasesPath();
+    var dbFilePath = '$databasesPath/qary_dbase.db';
+    late Database db;
+    db = await openDatabase(dbFilePath);
+    await db.rawDelete('DELETE FROM datatable WHERE qaryname = ?',[qname]);
+
+
+
 
   }
 
