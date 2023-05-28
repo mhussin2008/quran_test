@@ -90,6 +90,13 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                 ),
                 OutlinedButton(
                     onPressed: () async {
+                      List<QaryData>? search=[];
+                     search=QaryList.where((element) => element.qaryName==nameController.text).toList();
+                      print(search);
+                      if(search.length>0){
+                        return;
+                      }
+                     //
                       if (nameController.text.isNotEmpty &&
                           ageController.text.isNotEmpty) {
                         setState(()  {

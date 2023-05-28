@@ -22,6 +22,8 @@ class QaryData {
   @override
   String toString(){return 'Qary Name is ${qaryName} and his age is ${qaryAge}';}
 
+
+
  }
 
 List<QaryData> QaryList=[];
