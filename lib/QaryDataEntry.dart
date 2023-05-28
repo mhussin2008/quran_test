@@ -1,3 +1,7 @@
+//import 'dart:js_interop';
+
+
+
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
@@ -129,6 +133,9 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                     },
                     child: Text('حفظ البيانات')),
                 SfDataGrid(
+                  allowEditing: true,
+                allowSorting: true,
+                selectionMode: SelectionMode.single,
                 columnWidthMode: ColumnWidthMode.fill,
                 isScrollbarAlwaysShown: true,
                 gridLinesVisibility: GridLinesVisibility.both,
@@ -158,10 +165,14 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                 Container(width: 20,color: Colors.green,),
                 Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly ,children: [
                   OutlinedButton(
+
                       onPressed: () {
-                        Navigator.pop(context);
+                        if(dataGridController.selectedRow != null){
+                          print(dataGridController.selectedRow?.getCells().first.value);
+                        }
+                        //Navigator.pop(context);
                       },
-                      child: Text('عودة الى الشاشة الرئيسية')),
+                      child: Text('بدء الإختبار')),
 
                   OutlinedButton(
                       onPressed: () async {
@@ -189,7 +200,13 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
 
                 ],
 
+
                 ),
+                OutlinedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('عودة الى الشاشة الرئيسية')),
 
               ],
             ),
