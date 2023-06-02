@@ -6,7 +6,10 @@ class QaryExam extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     int mark = 100;
+    TextEditingController markController=TextEditingController();
+    markController.text=mark.toString();
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('إختبار')),
@@ -18,23 +21,29 @@ class QaryExam extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(mark.toString(),
-                    style: TextStyle(
-                      fontSize: 40
-                    ),
+              Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 100,
+                      child: TextField(
+                        controller: markController,
+                        style: TextStyle(
+                          fontSize: 40
+                        ),
 
-                  ),
-                  SizedBox(
-                    width: 40,
-                  ),
-                  Text(qaryName,
-                    style: TextStyle(
-                        fontSize: 40
-                    ),)
-                ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: 40,
+                    ),
+                    Text(qaryName,
+                      style: TextStyle(
+                          fontSize: 40
+                      ),)
+                  ],
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -50,7 +59,7 @@ class QaryExam extends StatelessWidget {
 
                         padding: EdgeInsets.all(20),
                         backgroundColor: Colors.blue, // <-- Button color
-                        foregroundColor: Colors.red, // <-- Splash color
+                        foregroundColor: Colors.black, // <-- Splash color
                       )),
                   SizedBox(width: 10,),
                   OutlinedButton(
@@ -61,7 +70,7 @@ class QaryExam extends StatelessWidget {
 
                         padding: EdgeInsets.all(20),
                         backgroundColor: Colors.blue, // <-- Button color
-                        foregroundColor: Colors.red, // <-- Splash color
+                        foregroundColor: Colors.black, // <-- Splash color
                       )),
                 ],
               ),
@@ -77,7 +86,7 @@ class QaryExam extends StatelessWidget {
 
                         padding: EdgeInsets.all(20),
                         backgroundColor: Colors.blue, // <-- Button color
-                        foregroundColor: Colors.red, // <-- Splash color
+                        foregroundColor: Colors.black, // <-- Splash color
                       )),
                   SizedBox(width: 10,),
                   OutlinedButton(
@@ -88,7 +97,7 @@ class QaryExam extends StatelessWidget {
 
                         padding: EdgeInsets.all(20),
                         backgroundColor: Colors.blue, // <-- Button color
-                        foregroundColor: Colors.red, // <-- Splash color
+                        foregroundColor: Colors.black, // <-- Splash color
                       )),
                 ],
               ),
@@ -101,9 +110,27 @@ class QaryExam extends StatelessWidget {
 
                     padding: EdgeInsets.all(20),
                     backgroundColor: Colors.blue, // <-- Button color
-                    foregroundColor: Colors.red, // <-- Splash color
+                    foregroundColor: Colors.black, // <-- Splash color
                   )),
+            SizedBox(height: 20,)
 
+            ,Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [ OutlinedButton(
+                    onPressed: () {
+
+                      Navigator.pop(context);
+                    },
+                    child: Text('حفظ الدرجة والعودة'
+                      ,style: TextStyle(fontSize: 20),),
+                    style: ElevatedButton.styleFrom(
+
+                      padding: EdgeInsets.all(20),
+                      backgroundColor: Colors.limeAccent, // <-- Button color
+                      foregroundColor: Colors.black, // <-- Splash color
+                    )),],),
+            )
             ],
           ),
         ),
