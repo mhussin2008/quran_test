@@ -3,6 +3,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:quran_test/QaryExam.dart';
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:quran_test/qaryData.dart';
@@ -192,8 +193,15 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                   OutlinedButton(
 
                       onPressed: () {
+                        String Selected='';
                         if(dataGridController.selectedRow != null){
+                        Selected=dataGridController.selectedRow!.getCells().first.value.toString();
+
                           print(dataGridController.selectedRow?.getCells().first.value);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) => QaryExam(qaryName: Selected)));
                         }
                         //Navigator.pop(context);
                       },
