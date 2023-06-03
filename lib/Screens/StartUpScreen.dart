@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:quran_test/Screens/ChallengeEntryScreen.dart';
 import 'package:quran_test/Screens/QaryDataEntry.dart';
+import 'package:sqflite/sqflite.dart';
 
 class startUpScreen extends StatelessWidget {
   const startUpScreen({Key? key}) : super(key: key);
@@ -15,6 +19,22 @@ class startUpScreen extends StatelessWidget {
 
             SizedBox(height: 10),
             OutlinedButton(
+                onPressed: () async {
+                await deleteDB();
+                },
+                child: Text('مسح قاعدة البيانات')),
+            SizedBox(height: 10),
+            OutlinedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => challengeEntryScreen()));
+                },
+                child: Text('جدول المسابقات'))
+            ,
+            SizedBox(height: 10),
+            OutlinedButton(
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -27,4 +47,13 @@ class startUpScreen extends StatelessWidget {
       ),
     );
   }
-}
+
+  Future<void> deleteDB() async {
+    var databasesPath = await getDatabasesPath();
+    var dbFilePath = '$databasesPath/qary_dbase.db';
+    var dbExists = File(dbFilePath).existsSync();
+    if (dbExists == true) {
+      print('found and deleted database');
+        await deleteDatabase(dbFilePath);
+    }
+}}
