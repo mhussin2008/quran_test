@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 
-class QaryExam extends StatelessWidget {
+class QaryExam extends StatefulWidget {
   const QaryExam({Key? key, required this.qaryName}) : super(key: key);
   final String qaryName;
 
   @override
-  Widget build(BuildContext context) {
+  State<QaryExam> createState() => _QaryExamState();
+}
 
-    int mark = 100;
+class _QaryExamState extends State<QaryExam> {
+  int mark = 100;
+  @override
+  Widget build(BuildContext context) {
+    List<int> faultValue=[2, 2, 2, 2, 2];
+
     TextEditingController markController=TextEditingController();
     markController.text=mark.toString();
     return Scaffold(
@@ -38,7 +44,7 @@ class QaryExam extends StatelessWidget {
                     SizedBox(
                       width: 40,
                     ),
-                    Text(qaryName,
+                    Text(widget.qaryName,
                       style: TextStyle(
                           fontSize: 40
                       ),)
@@ -52,7 +58,9 @@ class QaryExam extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        decreaseMark(faultValue[0]);
+                      },
                       child: Text('صحح له المعلم'
                       ,style: TextStyle(fontSize: 20),),
                       style: ElevatedButton.styleFrom(
@@ -63,7 +71,9 @@ class QaryExam extends StatelessWidget {
                       )),
                   SizedBox(width: 10,),
                   OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        decreaseMark(faultValue[1]);
+                      },
                       child: Text('صحح بنفسه'
                         ,style: TextStyle(fontSize: 20),),
                       style: ElevatedButton.styleFrom(
@@ -79,7 +89,9 @@ class QaryExam extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        decreaseMark(faultValue[2]);
+                      },
                       child: Text('التردد'
                         ,style: TextStyle(fontSize: 20),),
                       style: ElevatedButton.styleFrom(
@@ -90,7 +102,9 @@ class QaryExam extends StatelessWidget {
                       )),
                   SizedBox(width: 10,),
                   OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        decreaseMark(faultValue[3]);
+                      },
                       child: Text('خطأ التجويد'
                         ,style: TextStyle(fontSize: 20),),
                       style: ElevatedButton.styleFrom(
@@ -103,7 +117,9 @@ class QaryExam extends StatelessWidget {
               ),
               SizedBox(height: 10,),
               OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    decreaseMark(faultValue[4]);
+                  },
                   child: Text('خطأ الوقف والإبتداء'
                     ,style: TextStyle(fontSize: 20),),
                   style: ElevatedButton.styleFrom(
@@ -134,5 +150,11 @@ class QaryExam extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void decreaseMark(int fValue) {
+    setState(() {
+      mark=mark-fValue;
+    });
   }
 }

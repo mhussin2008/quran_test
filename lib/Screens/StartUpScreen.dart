@@ -34,14 +34,14 @@ class startUpScreen extends StatelessWidget {
                 child: Text('جدول المسابقات'))
             ,
             SizedBox(height: 10),
-            OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => qaryDataEntry()));
-                },
-                child: Text('بيانات الطلاب'))
+            // OutlinedButton(
+            //     onPressed: () {
+            //       Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: (BuildContext context) => qaryDataEntry()));
+            //     },
+            //     child: Text('بيانات الطلاب'))
           ],
         ),
       ),

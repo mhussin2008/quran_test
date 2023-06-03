@@ -13,7 +13,8 @@ import '../Data/QaryDataSource.dart';
 import 'DialogScreen.dart';
 
 class qaryDataEntry extends StatefulWidget {
-  qaryDataEntry({Key? key}) : super(key: key);
+  final String testName;
+  qaryDataEntry({Key? key, required this.testName}) : super(key: key);
 
   @override
   State<qaryDataEntry> createState() => _qaryDataEntryState();
@@ -51,6 +52,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     DataGridController dataGridController=DataGridController();
     QaryDataSource dataSource = QaryDataSource(qaryList: QaryList);
     return Scaffold(
+      appBar: AppBar(title: Text('  مسابقة  ${widget.testName}') ,backgroundColor: Colors.cyan,),
         resizeToAvoidBottomInset: true,
         body: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -59,11 +61,11 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Text('اسم الطالب'),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 TextFormField(
                     style: const TextStyle(height: 0.5),
@@ -73,11 +75,11 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                     decoration:
                         const InputDecoration(border: OutlineInputBorder())),
                 SizedBox(
-                  height: 40,
+                  height: 20,
                 ),
                 Text('عمر الطالب'),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 TextFormField(
                     style: const TextStyle(height: 0.5),
@@ -87,7 +89,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                     decoration:
                         const InputDecoration(border: OutlineInputBorder())),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 OutlinedButton(
                     onPressed: () async {
@@ -140,38 +142,47 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                       }
                     },
                     child: Text('حفظ البيانات')),
-                SfDataGrid(
-                  allowEditing: true,
-                allowSorting: true,
-                selectionMode: SelectionMode.single,
-                columnWidthMode: ColumnWidthMode.fill,
-                isScrollbarAlwaysShown: true,
-                gridLinesVisibility: GridLinesVisibility.both,
-                headerGridLinesVisibility: GridLinesVisibility.both,
-                controller: dataGridController,
-                source: dataSource,
-                columns: <GridColumn>[
-                  GridColumn(
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 200,
+                  color: Colors.tealAccent,
+                  child: SfDataGrid(
+                    allowEditing: true,
+                  allowSorting: true,
+                  selectionMode: SelectionMode.single,
+                  columnWidthMode: ColumnWidthMode.fill,
+                  isScrollbarAlwaysShown: true,
+                  gridLinesVisibility: GridLinesVisibility.both,
+                  headerGridLinesVisibility: GridLinesVisibility.both,
+                  controller: dataGridController,
+                  source: dataSource,
+                  columns: <GridColumn>[
+                    GridColumn(
 
-                      columnName: 'name',
-                      label: Container(
+                        columnName: 'name',
+                        label: Container(
 
-                          padding: EdgeInsets.all(16.0),
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                           'اسم الطالب',
+                            padding: EdgeInsets.all(4.0),
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                             'اسم الطالب',
 
-                          ))),
-                  GridColumn(
-                      columnName: 'age',
-                      label: Container(
-                          padding: EdgeInsets.all(16.0),
-                          alignment: Alignment.centerRight,
-                          child: Text('عمر الطالب  ')))
-                ].reversed.toList(),
-                  ),
-                Container(width: 20,color: Colors.green,),
-                Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly ,children: [
+                            ))),
+                    GridColumn(
+                        columnName: 'age',
+                        label: Container(
+                            padding: EdgeInsets.all(4.0),
+                            alignment: Alignment.centerRight,
+                            child: Text('عمر الطالب  ')))
+                  ].reversed.toList(),
+                    ),
+                ),
+                SizedBox(height: 20,),
+               // Container(width: 20,color: Colors.green,),
+                Row(mainAxisAlignment: MainAxisAlignment.start ,children: [
+
                   OutlinedButton(
 
                       onPressed: () async {

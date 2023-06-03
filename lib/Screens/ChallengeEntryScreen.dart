@@ -11,6 +11,7 @@ import '../Data/QaryDataSource.dart';
 import '../Data/TestDataSource.dart';
 import '../Data/testData.dart';
 import 'DialogScreen.dart';
+import 'QaryDataEntry.dart';
 
 class challengeEntryScreen extends StatefulWidget {
   challengeEntryScreen({Key? key}) : super(key: key);
@@ -201,11 +202,13 @@ class _challengeEntryScreenState extends State<challengeEntryScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => QaryExam(qaryName: Selected)));
+                                  builder: (BuildContext context) => qaryDataEntry(testName: Selected)));
                         }
                         //Navigator.pop(context);
                       },
-                      child: Text('بدء الإختبار')),
+                      child: Text('إدخال بيانات\n الطلبة',
+                      textDirection: TextDirection.rtl,),
+                  ),
 
                   OutlinedButton(
                       onPressed: () async {
@@ -350,7 +353,7 @@ class _challengeEntryScreenState extends State<challengeEntryScreen> {
     var dbFilePath = '$databasesPath/qary_dbase.db';
     late Database db;
     db = await openDatabase(dbFilePath);
-    await db.rawDelete('DELETE FROM datatable WHERE testname = ?',[tname]);
+    await db.rawDelete('DELETE FROM testtable WHERE testname = ?',[tname]);
 
 
 
