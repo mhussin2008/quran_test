@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quran_test/qaryData.dart';
+import 'package:quran_test/Data/qaryData.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class QaryDataSource extends DataGridSource {

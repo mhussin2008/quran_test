@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quran_test/QaryDataEntry.dart';
+import 'package:quran_test/Screens/QaryDataEntry.dart';
 
 class startUpScreen extends StatelessWidget {
   const startUpScreen({Key? key}) : super(key: key);
@@ -12,6 +12,7 @@ class startUpScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text('Start Up Screen'),
+
             SizedBox(height: 10),
             OutlinedButton(
                 onPressed: () {

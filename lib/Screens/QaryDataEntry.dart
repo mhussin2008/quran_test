@@ -3,13 +3,13 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:quran_test/QaryExam.dart';
+import 'package:quran_test/Screens/QaryExam.dart';
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
-import 'package:quran_test/qaryData.dart';
+import 'package:quran_test/Data/qaryData.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'QaryDataSource.dart';
+import '../Data/QaryDataSource.dart';
 import 'DialogScreen.dart';
 
 class qaryDataEntry extends StatefulWidget {

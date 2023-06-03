@@ -119,14 +119,12 @@ class QaryExam extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [ OutlinedButton(
                     onPressed: () {
-
                       Navigator.pop(context);
                     },
                     child: Text('حفظ الدرجة والعودة'
                       ,style: TextStyle(fontSize: 20),),
                     style: ElevatedButton.styleFrom(
-
-                      padding: EdgeInsets.all(20),
+                       padding: EdgeInsets.all(20),
                       backgroundColor: Colors.limeAccent, // <-- Button color
                       foregroundColor: Colors.black, // <-- Splash color
                     )),],),
