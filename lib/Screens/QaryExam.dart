@@ -10,15 +10,16 @@ class QaryExam extends StatefulWidget {
 
 class _QaryExamState extends State<QaryExam> {
   int mark = 100;
+  List<int> faultValue=[2, 2, 2, 2, 2];
   @override
   Widget build(BuildContext context) {
-    List<int> faultValue=[2, 2, 2, 2, 2];
+
 
     TextEditingController markController=TextEditingController();
     markController.text=mark.toString();
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('إختبار')),
+        title: const Center(child: Text('إختبار')),
       ),
       body: SafeArea(
         child: Center(
@@ -31,27 +32,27 @@ class _QaryExamState extends State<QaryExam> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 100,
                       child: TextField(
                         controller: markController,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 40
                         ),
 
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 40,
                     ),
                     Text(widget.qaryName,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 40
                       ),)
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -61,30 +62,30 @@ class _QaryExamState extends State<QaryExam> {
                       onPressed: () {
                         decreaseMark(faultValue[0]);
                       },
-                      child: Text('صحح له المعلم'
-                      ,style: TextStyle(fontSize: 20),),
                       style: ElevatedButton.styleFrom(
 
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         backgroundColor: Colors.blue, // <-- Button color
                         foregroundColor: Colors.black, // <-- Splash color
-                      )),
-                  SizedBox(width: 10,),
+                      ),
+                      child: const Text('صحح له المعلم'
+                      ,style: TextStyle(fontSize: 20),)),
+                  const SizedBox(width: 10,),
                   OutlinedButton(
                       onPressed: () {
                         decreaseMark(faultValue[1]);
                       },
-                      child: Text('صحح بنفسه'
-                        ,style: TextStyle(fontSize: 20),),
                       style: ElevatedButton.styleFrom(
 
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         backgroundColor: Colors.blue, // <-- Button color
                         foregroundColor: Colors.black, // <-- Splash color
-                      )),
+                      ),
+                      child: const Text('صحح بنفسه'
+                        ,style: TextStyle(fontSize: 20),)),
                 ],
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -92,43 +93,43 @@ class _QaryExamState extends State<QaryExam> {
                       onPressed: () {
                         decreaseMark(faultValue[2]);
                       },
-                      child: Text('التردد'
-                        ,style: TextStyle(fontSize: 20),),
                       style: ElevatedButton.styleFrom(
 
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         backgroundColor: Colors.blue, // <-- Button color
                         foregroundColor: Colors.black, // <-- Splash color
-                      )),
-                  SizedBox(width: 10,),
+                      ),
+                      child: const Text('التردد'
+                        ,style: TextStyle(fontSize: 20),)),
+                  const SizedBox(width: 10,),
                   OutlinedButton(
                       onPressed: () {
                         decreaseMark(faultValue[3]);
                       },
-                      child: Text('خطأ التجويد'
-                        ,style: TextStyle(fontSize: 20),),
                       style: ElevatedButton.styleFrom(
 
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         backgroundColor: Colors.blue, // <-- Button color
                         foregroundColor: Colors.black, // <-- Splash color
-                      )),
+                      ),
+                      child: const Text('خطأ التجويد'
+                        ,style: TextStyle(fontSize: 20),)),
                 ],
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               OutlinedButton(
                   onPressed: () {
                     decreaseMark(faultValue[4]);
                   },
-                  child: Text('خطأ الوقف والإبتداء'
-                    ,style: TextStyle(fontSize: 20),),
                   style: ElevatedButton.styleFrom(
 
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     backgroundColor: Colors.blue, // <-- Button color
                     foregroundColor: Colors.black, // <-- Splash color
-                  )),
-            SizedBox(height: 20,)
+                  ),
+                  child: const Text('خطأ الوقف والإبتداء'
+                    ,style: TextStyle(fontSize: 20),)),
+            const SizedBox(height: 20,)
 
             ,Center(
               child: Row(
@@ -137,13 +138,13 @@ class _QaryExamState extends State<QaryExam> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('حفظ الدرجة والعودة'
-                      ,style: TextStyle(fontSize: 20),),
                     style: ElevatedButton.styleFrom(
-                       padding: EdgeInsets.all(20),
+                       padding: const EdgeInsets.all(20),
                       backgroundColor: Colors.limeAccent, // <-- Button color
                       foregroundColor: Colors.black, // <-- Splash color
-                    )),],),
+                    ),
+                    child: const Text('حفظ الدرجة والعودة'
+                      ,style: TextStyle(fontSize: 20),)),],),
             )
             ],
           ),
