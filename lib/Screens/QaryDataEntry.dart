@@ -212,17 +212,25 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
 
                   OutlinedButton(
 
-                      onPressed: () {
+                      onPressed: () async {
                         String Selected='';
                         if(dataGridController.selectedRow != null){
                         Selected=dataGridController.selectedRow!.getCells().first.value.toString();
 
                           print(dataGridController.selectedRow?.getCells().first.value);
-                          Navigator.push(
+                          await Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) => QaryExam(qaryName: Selected)));
                         }
+
+                        GetFromDb().then((value) => {
+                          print('Loaded all data')
+
+                        });
+                        // setState(() {
+                        // print('updating');
+                        // });
                         //Navigator.pop(context);
                       },
                       child: Text('بدء الإختبار')),
