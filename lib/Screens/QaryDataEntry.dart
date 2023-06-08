@@ -32,12 +32,12 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     // WidgetsBinding.instance.addPostFrameCallback((_){
     //   CheckDbase();
     // });
-
+    QaryList.clear();
 
     CheckDbase().then((value) =>
     {
       if (value=='Ok'){
-      GetFromDb().then((value) => {
+      GetFromDb(widget.testName).then((value) => {
         print('Loaded all data')
 
       })
@@ -226,7 +226,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                                   builder: (BuildContext context) => QaryExam(qaryName: Selected,degree: selected_deg ,)));
                         }
 
-                        GetFromDb().then((value) => {
+                        GetFromDb(widget.testName).then((value) => {
                           print('Loaded all data')
 
                         });
@@ -342,17 +342,19 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
   }
 
 
-  Future<void> GetFromDb() async{
+  Future<void> GetFromDb(String tname) async{
     var databasesPath = await getDatabasesPath();
     var dbFilePath = '$databasesPath/qary_dbase.db';
     late Database db;
     db = await openDatabase(dbFilePath);
     List<Map<String,dynamic>>? gotlist =
-    await db.database.rawQuery('SELECT * FROM datatable');
+    await db.database.rawQuery('''SELECT * FROM datatable WHERE testname='${tname}' ''');
     print(gotlist);
     print(gotlist.length);
     if(gotlist.isNotEmpty){
-    QaryList.clear();
+
+      QaryList.clear();
+
     setState(() {
       gotlist.forEach((e) {
         {

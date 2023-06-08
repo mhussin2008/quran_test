@@ -304,7 +304,7 @@ class _challengeEntryScreenState extends State<challengeEntryScreen> {
     late Database db;
     db = await openDatabase(dbFilePath);
     String testdate=dateController.text;
-    String line=''' '${nameController.text}', $testdate ''';
+    String line=''' '${nameController.text}', '${testdate}' ''';
     String insertString =
     '''INSERT INTO testtable ( testname, testdate) VALUES ( ${line} )''';
     print(insertString);
