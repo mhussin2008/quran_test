@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 
 class QaryExam extends StatefulWidget {
   const QaryExam({Key? key, required this.qaryName}) : super(key: key);
@@ -135,7 +138,11 @@ class _QaryExamState extends State<QaryExam> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [ OutlinedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      if(await CheckDbase()=='Ok'){
+                        updateDb(int.parse(markController.text));
+                      }
+
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
@@ -158,4 +165,62 @@ class _QaryExamState extends State<QaryExam> {
       mark=mark-fValue;
     });
   }
+
+  Future<String> CheckDbase() async {
+
+    var databasesPath = await getDatabasesPath();
+    var dbFilePath = '$databasesPath/qary_dbase.db';
+    var dbExists = File(dbFilePath).existsSync();
+    if (dbExists == false) {
+      print('no such database');
+
+    } else {
+
+    }
+    late Database db;
+    db = await openDatabase('qary_dbase.db');
+    if (db.isOpen == false) {
+      print('cant open database');
+      return 'No';
+    }
+    var tables = await db
+        .rawQuery('SELECT * FROM sqlite_master WHERE name="testtable";');
+
+    if (tables.isEmpty) {
+      // Create the table
+      print('no such table');
+      try {
+        await db.execute('''
+        create table testtable (
+        testname TEXT NOT NULL UNIQUE ,
+        testdate TEXT 
+       )''');
+      } catch (err) {
+        if (err.toString().contains('DatabaseException') == true) {
+          print(err.toString());
+          return 'No';
+        }
+        //print(err.toString().substring(0,30));
+      }
+    }
+    return 'Ok';
+  }
+
+  Future<void> updateDb(int newdegree)
+  async {
+    var db = await openDatabase('qary_dbase.db');
+
+
+    int updateCount = await db.rawUpdate('''
+    UPDATE datatable 
+    SET  degree = ? 
+    WHERE qaryname = ?
+    ''',
+        [newdegree,widget.qaryName]);
+
+    print(updateCount.toString());
+  }
+
+
+
 }

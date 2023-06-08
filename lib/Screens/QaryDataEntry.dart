@@ -104,7 +104,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                           ageController.text.isNotEmpty) {
                         setState(()  {
                           QaryList.add(QaryData.fromFields(nameController.text,
-                              int.parse(ageController.text)));
+                              int.parse(ageController.text),100,widget.testName));
                             });
                         String retVal=await  CheckDbase();
                         if (retVal=='Ok'){
@@ -175,7 +175,16 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                         label: Container(
                             padding: EdgeInsets.all(4.0),
                             alignment: Alignment.centerRight,
-                            child: Text('عمر الطالب  ')))
+                            child: Text('عمر الطالب  '))),
+
+                    GridColumn(
+                        columnName: 'degree',
+                        label: Container(
+                            padding: EdgeInsets.all(4.0),
+                            alignment: Alignment.centerRight,
+                            child: Text('الدرجة  ')))
+
+
                   ].reversed.toList(),
                     ),
                 ),
@@ -285,7 +294,9 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
         await db.execute('''
         create table datatable (
         qaryname TEXT NOT NULL UNIQUE ,
-        qaryage INTEGER DEFAULT 0
+        qaryage INTEGER DEFAULT 0 ,
+        degree INTEGER DEFAULT 100,
+        testname TEXT NOT NULL
        )''');
       } catch (err) {
         if (err.toString().contains('DatabaseException') == true) {
@@ -312,9 +323,9 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     late Database db;
     db = await openDatabase(dbFilePath);
     int age=int.parse(ageController.text);
-    String line=''' '${nameController.text}', $age ''';
+    String line=''' '${nameController.text}', $age , 100, '${widget.testName}'  ''';
     String insertString =
-    '''INSERT INTO datatable ( qaryname, qaryage) VALUES ( ${line} )''';
+    '''INSERT INTO datatable ( qaryname, qaryage, degree, testname) VALUES ( ${line} )''';
     print(insertString);
     await db.execute(insertString);
 
@@ -329,13 +340,14 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     List<Map<String,dynamic>>? gotlist =
     await db.database.rawQuery('SELECT * FROM datatable');
     print(gotlist);
+    print(gotlist.length);
     if(gotlist.isNotEmpty){
     QaryList.clear();
     setState(() {
       gotlist.forEach((e) {
         {
           //QaryList.add(QaryData.fromJson(e));
-         QaryList.add(QaryData.fromFields(e['qaryname'],e['qaryage']));
+         QaryList.add(QaryData.fromFields(e['qaryname'],e['qaryage'],e['degree'],e['testname']));
       };
     });
     print(QaryList);
