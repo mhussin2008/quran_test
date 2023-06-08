@@ -4,21 +4,47 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 class QaryExam extends StatefulWidget {
-  const QaryExam({Key? key, required this.qaryName}) : super(key: key);
+  const QaryExam({Key? key, required this.qaryName, required this.degree,}) : super(key: key);
   final String qaryName;
+  final int degree;
 
   @override
   State<QaryExam> createState() => _QaryExamState();
 }
 
 class _QaryExamState extends State<QaryExam> {
-  int mark = 100;
+  int mark=0 ;
+  TextEditingController markController=TextEditingController();
   List<int> faultValue=[2, 2, 2, 2, 2];
+
+  @override
+  void initState()  {
+    // TODO: implement initState
+    mark=widget.degree;
+
+    // CheckDbase().then((value) =>
+    // {
+    //   if (value=='Ok'){
+    //     GetDegree().then((retVal) => {
+    //       mark=retVal,
+    //       print('here $retVal')
+    //
+    //     })
+    //   }
+    // }
+    // );
+    super.initState();
+
+
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
 
-    TextEditingController markController=TextEditingController();
+
     markController.text=mark.toString();
     return Scaffold(
       appBar: AppBar(
@@ -221,6 +247,19 @@ class _QaryExamState extends State<QaryExam> {
     print(updateCount.toString());
   }
 
+  Future<int> GetDegree() async {
+    var deg;
+    var db = await openDatabase('qary_dbase.db');
+    deg = await db.rawQuery('''
+    SELECT degree FROM datatable 
+    WHERE qaryname = '${widget.qaryName}'
+    '''
+        );
+    print(deg[0]);
+    print(deg[0]['degree'].runtimeType);
+
+    return deg[0]['degree'];
+  }
 
 
 }

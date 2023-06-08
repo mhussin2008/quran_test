@@ -214,14 +214,16 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
 
                       onPressed: () async {
                         String Selected='';
+                        int selected_deg=0;
                         if(dataGridController.selectedRow != null){
                         Selected=dataGridController.selectedRow!.getCells().first.value.toString();
+                        selected_deg=int.parse(dataGridController.selectedRow!.getCells()[2].value.toString());
 
                           print(dataGridController.selectedRow?.getCells().first.value);
                           await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => QaryExam(qaryName: Selected)));
+                                  builder: (BuildContext context) => QaryExam(qaryName: Selected,degree: selected_deg ,)));
                         }
 
                         GetFromDb().then((value) => {
