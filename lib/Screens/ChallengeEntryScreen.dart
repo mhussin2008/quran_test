@@ -156,7 +156,7 @@ class _challengeEntryScreenState extends State<challengeEntryScreen> {
 
                       columnName: 'name',
                       label: Container(
-
+                            color: Colors.cyanAccent,
                           padding: EdgeInsets.all(16.0),
                           alignment: Alignment.centerRight,
                           child: Text(
@@ -166,6 +166,7 @@ class _challengeEntryScreenState extends State<challengeEntryScreen> {
                   GridColumn(
                       columnName: 'age',
                       label: Container(
+                          color: Colors.cyanAccent,
                           padding: EdgeInsets.all(16.0),
                           alignment: Alignment.centerRight,
                           child: Text('تاريخ المسابقة ')))
