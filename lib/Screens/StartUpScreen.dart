@@ -5,6 +5,8 @@ import 'package:quran_test/Screens/ChallengeEntryScreen.dart';
 import 'package:quran_test/Screens/QaryDataEntry.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'DegreeTable.dart';
+
 class startUpScreen extends StatelessWidget {
   const startUpScreen({Key? key}) : super(key: key);
 
@@ -17,13 +19,13 @@ class startUpScreen extends StatelessWidget {
           children: [
             Text('Start Up Screen'),
 
-            SizedBox(height: 10),
+            //SizedBox(height: 10),
             OutlinedButton(
                 onPressed: () async {
                 await deleteDB();
                 },
                 child: Text('مسح قاعدة البيانات')),
-            SizedBox(height: 10),
+           // SizedBox(height: 10),
             OutlinedButton(
                 onPressed: () {
                   Navigator.push(
@@ -33,7 +35,15 @@ class startUpScreen extends StatelessWidget {
                 },
                 child: Text('جدول المسابقات'))
             ,
-            SizedBox(height: 10),
+            //SizedBox(height: 10),
+            OutlinedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => DegreeTable()));
+                },
+                child: Text('تعديل جدول خصم الدرجات'))
             // OutlinedButton(
             //     onPressed: () {
             //       Navigator.push(

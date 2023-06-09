@@ -38,6 +38,7 @@ dependencies:
   fluttertoast: ^8.2.2
   syncfusion_flutter_datagrid: ^21.2.6
   sqflite: ^2.2.8+4
+  shared_preferences: ^2.1.2
 
 dev_dependencies:
   flutter_test:

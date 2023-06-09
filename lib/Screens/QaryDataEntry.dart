@@ -147,7 +147,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                 ),
                 Container(
                   height: 200,
-                  color: Colors.tealAccent,
+                  //color: Colors.tealAccent,
                   child: SfDataGrid(
                     allowEditing: true,
                   allowSorting: true,
@@ -163,7 +163,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
 
                         columnName: 'name',
                         label: Container(
-
+                              color: Colors.cyanAccent,
                             padding: EdgeInsets.all(4.0),
                             alignment: Alignment.centerRight,
                             child: Text(
@@ -171,8 +171,10 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
 
                             ))),
                     GridColumn(
+
                         columnName: 'age',
                         label: Container(
+                            color: Colors.cyanAccent,
                             padding: EdgeInsets.all(4.0),
                             alignment: Alignment.centerRight,
                             child: Text('عمر الطالب  '))),
@@ -180,6 +182,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                     GridColumn(
                         columnName: 'degree',
                         label: Container(
+                            color: Colors.cyanAccent,
                             padding: EdgeInsets.all(4.0),
                             alignment: Alignment.centerRight,
                             child: Text('الدرجة  ')))

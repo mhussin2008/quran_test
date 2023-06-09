@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
+import '../Data/DegreeData.dart';
 
 class QaryExam extends StatefulWidget {
   const QaryExam({Key? key, required this.qaryName, required this.degree,}) : super(key: key);
@@ -15,7 +16,7 @@ class QaryExam extends StatefulWidget {
 class _QaryExamState extends State<QaryExam> {
   int mark=0 ;
   TextEditingController markController=TextEditingController();
-  List<int> faultValue=[2, 2, 2, 2, 2];
+  List<int> faultValue=DegreeData.degreeTable;
 
   @override
   void initState()  {
@@ -97,7 +98,7 @@ class _QaryExamState extends State<QaryExam> {
                         backgroundColor: Colors.blue, // <-- Button color
                         foregroundColor: Colors.black, // <-- Splash color
                       ),
-                      child: const Text('صحح له المعلم'
+                      child: Text(DegreeData.faultList[0]
                       ,style: TextStyle(fontSize: 20),)),
                   const SizedBox(width: 10,),
                   OutlinedButton(
@@ -110,7 +111,7 @@ class _QaryExamState extends State<QaryExam> {
                         backgroundColor: Colors.blue, // <-- Button color
                         foregroundColor: Colors.black, // <-- Splash color
                       ),
-                      child: const Text('صحح بنفسه'
+                      child: Text(DegreeData.faultList[1]
                         ,style: TextStyle(fontSize: 20),)),
                 ],
               ),
@@ -128,7 +129,7 @@ class _QaryExamState extends State<QaryExam> {
                         backgroundColor: Colors.blue, // <-- Button color
                         foregroundColor: Colors.black, // <-- Splash color
                       ),
-                      child: const Text('التردد'
+                      child:  Text(DegreeData.faultList[2]
                         ,style: TextStyle(fontSize: 20),)),
                   const SizedBox(width: 10,),
                   OutlinedButton(
@@ -141,7 +142,7 @@ class _QaryExamState extends State<QaryExam> {
                         backgroundColor: Colors.blue, // <-- Button color
                         foregroundColor: Colors.black, // <-- Splash color
                       ),
-                      child: const Text('خطأ التجويد'
+                      child: Text(DegreeData.faultList[3]
                         ,style: TextStyle(fontSize: 20),)),
                 ],
               ),
@@ -156,7 +157,7 @@ class _QaryExamState extends State<QaryExam> {
                     backgroundColor: Colors.blue, // <-- Button color
                     foregroundColor: Colors.black, // <-- Splash color
                   ),
-                  child: const Text('خطأ الوقف والإبتداء'
+                  child: Text(DegreeData.faultList[4]
                     ,style: TextStyle(fontSize: 20),)),
             const SizedBox(height: 20,)
 

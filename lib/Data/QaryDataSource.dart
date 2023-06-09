@@ -30,7 +30,7 @@ class QaryDataSource extends DataGridSource {
        return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
           return Container(
-            color: Colors.lightBlue,
+            //color: Colors.lightBlue,
             padding: const EdgeInsets.all(16.0),
             child: Text(
                 textAlign: TextAlign.right,
