@@ -16,7 +16,7 @@ class QaryExam extends StatefulWidget {
 class _QaryExamState extends State<QaryExam> {
   int mark=0 ;
   TextEditingController markController=TextEditingController();
-  List<int> faultValue=DegreeData.degreeTable;
+  List<int> faultValue=DegreeData.degreeTable??[2,2,2,2,2];
 
   @override
   void initState()  {

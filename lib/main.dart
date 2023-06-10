@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:quran_test/Data/DegreeData.dart';
 
 import 'Screens/StartUpScreen.dart';
 
-void main() {
+Future<void> main() async {
+  //
+  WidgetsFlutterBinding.ensureInitialized();
+  await DegreeData.getDegreeData();
   runApp(const MyApp());
 }
 

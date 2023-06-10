@@ -2,32 +2,40 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DegreeData{
   static List<int> degreeTable=[2,2,2,2,2];
   static List<String> faultList=['صحح له المعلم','صحح بنفسه','التردد','خطأ التجويد','خطأ الوقف والإبتداء'];
+  static List<String>? degreeTableS=['2','2','2','2','2'];
 
-  static getDegreeData() async{
+
+  static Future<void> getDegreeData() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var degreeTableS=await prefs.getStringList('degrees');
+    degreeTableS=await prefs.getStringList('degrees');
+    //await Future.delayed(Duration(seconds: 2));
       print(degreeTableS);
     //degreeTable.clear();
-    if(degreeTableS!.isNotEmpty){
-    degreeTableS.forEach((element) {
+    if(degreeTableS != null){
+      degreeTable.clear();
+
+    degreeTableS!.forEach((element) {
       degreeTable.add(int.parse(element));
 
     });
-    }
+    }else{print('it is null');}
   }
 
-  static setDegreeData() async{
-    SharedPreferences.setMockInitialValues({});
+  static Future<void> setDegreeData() async{
+    //SharedPreferences.setMockInitialValues({});
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> degreeTableS=[];
+
+
     if(degreeTable.isNotEmpty){
+      degreeTableS=[];
 
        degreeTable.forEach((element) {
-          degreeTableS.add(element.toString());
+          degreeTableS!.add(element.toString());
 
         });
       }
-    bool ret=await prefs.setStringList('degrees',degreeTableS);
+    print(degreeTableS);
+    bool ret=await prefs.setStringList('degrees',degreeTableS!);
     print(ret.toString());
 
     }
