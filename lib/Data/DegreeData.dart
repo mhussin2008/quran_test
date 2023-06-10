@@ -6,8 +6,8 @@ class DegreeData{
   static getDegreeData() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var degreeTableS=await prefs.getStringList('degrees');
-
-    degreeTable.clear();
+      print(degreeTableS);
+    //degreeTable.clear();
     if(degreeTableS!.isNotEmpty){
     degreeTableS.forEach((element) {
       degreeTable.add(int.parse(element));
@@ -17,6 +17,7 @@ class DegreeData{
   }
 
   static setDegreeData() async{
+    SharedPreferences.setMockInitialValues({});
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> degreeTableS=[];
     if(degreeTable.isNotEmpty){
@@ -26,7 +27,8 @@ class DegreeData{
 
         });
       }
-    await prefs.setStringList('degrees',degreeTableS);
+    bool ret=await prefs.setStringList('degrees',degreeTableS);
+    print(ret.toString());
 
     }
 

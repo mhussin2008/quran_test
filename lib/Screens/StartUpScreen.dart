@@ -5,7 +5,7 @@ import 'package:quran_test/Screens/ChallengeEntryScreen.dart';
 import 'package:quran_test/Screens/QaryDataEntry.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'DegreeTable.dart';
+import 'DegreeTableScreen.dart';
 
 class startUpScreen extends StatelessWidget {
   const startUpScreen({Key? key}) : super(key: key);
