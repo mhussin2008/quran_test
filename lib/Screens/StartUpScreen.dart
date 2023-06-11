@@ -14,45 +14,53 @@ class startUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text('Start Up Screen'),
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/jpg/back.jpg' ),fit: BoxFit.cover
+            )
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text('Start Up Screen'),
 
-            //SizedBox(height: 10),
-            OutlinedButton(
-                onPressed: () async {
-                await deleteDB();
-                },
-                child: Text('مسح قاعدة البيانات')),
-           // SizedBox(height: 10),
-            OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => challengeEntryScreen()));
-                },
-                child: Text('جدول المسابقات'))
-            ,
-            //SizedBox(height: 10),
-            OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => DegreeTable()));
-                },
-                child: Text('تعديل جدول خصم الدرجات'))
-            // OutlinedButton(
-            //     onPressed: () {
-            //       Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (BuildContext context) => qaryDataEntry()));
-            //     },
-            //     child: Text('بيانات الطلاب'))
-          ],
+              //SizedBox(height: 10),
+              OutlinedButton(
+                  onPressed: () async {
+                  await deleteDB();
+                  },
+                  child: Text('مسح قاعدة البيانات')),
+             // SizedBox(height: 10),
+              OutlinedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => challengeEntryScreen()));
+                  },
+                  child: Text('جدول المسابقات'))
+              ,
+              //SizedBox(height: 10),
+              OutlinedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => DegreeTable()));
+                  },
+                  child: Text('تعديل جدول خصم الدرجات'))
+              // OutlinedButton(
+              //     onPressed: () {
+              //       Navigator.push(
+              //           context,
+              //           MaterialPageRoute(
+              //               builder: (BuildContext context) => qaryDataEntry()));
+              //     },
+              //     child: Text('بيانات الطلاب'))
+            ],
+          ),
         ),
       ),
     );
