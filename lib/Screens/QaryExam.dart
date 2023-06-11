@@ -52,135 +52,147 @@ class _QaryExamState extends State<QaryExam> {
         title: const Center(child: Text('إختبار')),
       ),
       body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Center(
-                child: Row(
+        child: SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/jpg/back.jpg' ),fit: BoxFit.cover
+                )
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: TextField(
+                          controller: markController,
+                          style: const TextStyle(
+                            fontSize: 40
+                          ),
+
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 40,
+                      ),
+                      Text(widget.qaryName,
+                        style: const TextStyle(
+                            fontSize: 40
+                        ),)
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(
-                      width: 100,
-                      child: TextField(
-                        controller: markController,
-                        style: const TextStyle(
-                          fontSize: 40
-                        ),
+                    OutlinedButton(
+                        onPressed: () {
+                          decreaseMark(faultValue[0]);
+                        },
+                        style: ElevatedButton.styleFrom(
 
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 40,
-                    ),
-                    Text(widget.qaryName,
-                      style: const TextStyle(
-                          fontSize: 40
-                      ),)
+                          padding: const EdgeInsets.all(20),
+                          backgroundColor: Colors.blue, // <-- Button color
+                          foregroundColor: Colors.black, // <-- Splash color
+                        ),
+                        child: Text('${DegreeData.faultList[0]}\n${faultValue[0]}',
+                        textAlign: TextAlign.center
+                        ,style: TextStyle(fontSize: 20),)),
+                    const SizedBox(width: 10,),
+                    OutlinedButton(
+                        onPressed: () {
+                          decreaseMark(faultValue[1]);
+                        },
+                        style: ElevatedButton.styleFrom(
+
+                          padding: const EdgeInsets.all(20),
+                          backgroundColor: Colors.blue, // <-- Button color
+                          foregroundColor: Colors.black, // <-- Splash color
+                        ),
+                        child: Text('${DegreeData.faultList[1]}\n${faultValue[1]}',
+                          textAlign: TextAlign.center
+                          ,style: TextStyle(fontSize: 20),)),
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  OutlinedButton(
-                      onPressed: () {
-                        decreaseMark(faultValue[0]);
-                      },
-                      style: ElevatedButton.styleFrom(
+                const SizedBox(height: 10,),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    OutlinedButton(
+                        onPressed: () {
+                          decreaseMark(faultValue[2]);
+                        },
+                        style: ElevatedButton.styleFrom(
 
-                        padding: const EdgeInsets.all(20),
-                        backgroundColor: Colors.blue, // <-- Button color
-                        foregroundColor: Colors.black, // <-- Splash color
-                      ),
-                      child: Text(DegreeData.faultList[0]
-                      ,style: TextStyle(fontSize: 20),)),
-                  const SizedBox(width: 10,),
-                  OutlinedButton(
-                      onPressed: () {
-                        decreaseMark(faultValue[1]);
-                      },
-                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(20),
+                          backgroundColor: Colors.blue, // <-- Button color
+                          foregroundColor: Colors.black, // <-- Splash color
+                        ),
+                        child:  Text('${DegreeData.faultList[2]}\n${faultValue[2]}',
+                          textAlign: TextAlign.center
+                          ,style: TextStyle(fontSize: 20),)),
+                    const SizedBox(width: 10,),
+                    OutlinedButton(
+                        onPressed: () {
+                          decreaseMark(faultValue[3]);
+                        },
+                        style: ElevatedButton.styleFrom(
 
-                        padding: const EdgeInsets.all(20),
-                        backgroundColor: Colors.blue, // <-- Button color
-                        foregroundColor: Colors.black, // <-- Splash color
-                      ),
-                      child: Text(DegreeData.faultList[1]
-                        ,style: TextStyle(fontSize: 20),)),
-                ],
-              ),
-              const SizedBox(height: 10,),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  OutlinedButton(
-                      onPressed: () {
-                        decreaseMark(faultValue[2]);
-                      },
-                      style: ElevatedButton.styleFrom(
-
-                        padding: const EdgeInsets.all(20),
-                        backgroundColor: Colors.blue, // <-- Button color
-                        foregroundColor: Colors.black, // <-- Splash color
-                      ),
-                      child:  Text(DegreeData.faultList[2]
-                        ,style: TextStyle(fontSize: 20),)),
-                  const SizedBox(width: 10,),
-                  OutlinedButton(
-                      onPressed: () {
-                        decreaseMark(faultValue[3]);
-                      },
-                      style: ElevatedButton.styleFrom(
-
-                        padding: const EdgeInsets.all(20),
-                        backgroundColor: Colors.blue, // <-- Button color
-                        foregroundColor: Colors.black, // <-- Splash color
-                      ),
-                      child: Text(DegreeData.faultList[3]
-                        ,style: TextStyle(fontSize: 20),)),
-                ],
-              ),
-              const SizedBox(height: 10,),
-              OutlinedButton(
-                  onPressed: () {
-                    decreaseMark(faultValue[4]);
-                  },
-                  style: ElevatedButton.styleFrom(
-
-                    padding: const EdgeInsets.all(20),
-                    backgroundColor: Colors.blue, // <-- Button color
-                    foregroundColor: Colors.black, // <-- Splash color
-                  ),
-                  child: Text(DegreeData.faultList[4]
-                    ,style: TextStyle(fontSize: 20),)),
-            const SizedBox(height: 20,)
-
-            ,Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [ OutlinedButton(
-                    onPressed: () async {
-                      if(await CheckDbase()=='Ok'){
-                        updateDb(int.parse(markController.text));
-                      }
-
-                      Navigator.pop(context);
+                          padding: const EdgeInsets.all(20),
+                          backgroundColor: Colors.blue, // <-- Button color
+                          foregroundColor: Colors.black, // <-- Splash color
+                        ),
+                        child: Text('${DegreeData.faultList[3]}\n${faultValue[3]}',
+                          textAlign: TextAlign.center
+                          ,style: TextStyle(fontSize: 20),)),
+                  ],
+                ),
+                const SizedBox(height: 10,),
+                OutlinedButton(
+                    onPressed: () {
+                      decreaseMark(faultValue[4]);
                     },
                     style: ElevatedButton.styleFrom(
-                       padding: const EdgeInsets.all(20),
-                      backgroundColor: Colors.limeAccent, // <-- Button color
+
+                      padding: const EdgeInsets.all(20),
+                      backgroundColor: Colors.blue, // <-- Button color
                       foregroundColor: Colors.black, // <-- Splash color
                     ),
-                    child: const Text('حفظ الدرجة والعودة'
-                      ,style: TextStyle(fontSize: 20),)),],),
-            )
-            ],
+                    child: Text('${DegreeData.faultList[4]}\n${faultValue[4]}',
+                      textAlign: TextAlign.center
+                      ,style: TextStyle(fontSize: 20),)),
+              const SizedBox(height: 20,)
+
+              ,Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [ OutlinedButton(
+                      onPressed: () async {
+                        if(await CheckDbase()=='Ok'){
+                          updateDb(int.parse(markController.text));
+                        }
+
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                         padding: const EdgeInsets.all(20),
+                        backgroundColor: Colors.limeAccent, // <-- Button color
+                        foregroundColor: Colors.black, // <-- Splash color
+                      ),
+                      child: const Text('حفظ الدرجة والعودة'
+                        ,style: TextStyle(fontSize: 20),)),],),
+              )
+              ],
+            ),
           ),
         ),
       ),

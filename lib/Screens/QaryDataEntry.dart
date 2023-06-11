@@ -54,7 +54,12 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     return Scaffold(
       appBar: AppBar(title: Text('  مسابقة  ${widget.testName}') ,backgroundColor: Colors.cyan,),
         resizeToAvoidBottomInset: true,
-        body: Padding(
+        body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/jpg/back.jpg' ),fit: BoxFit.cover
+              )
+          ),
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
             child: Column(
