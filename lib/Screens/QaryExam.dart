@@ -54,6 +54,7 @@ class _QaryExamState extends State<QaryExam> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
+
             decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/jpg/back.jpg' ),fit: BoxFit.cover
@@ -71,6 +72,7 @@ class _QaryExamState extends State<QaryExam> {
                       SizedBox(
                         width: 100,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           controller: markController,
                           style: const TextStyle(
                             fontSize: 40
