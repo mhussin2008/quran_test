@@ -148,7 +148,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                     },
                     child: Text('حفظ البيانات')),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Container(
                   height: 200,
@@ -196,7 +196,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                   ].reversed.toList(),
                     ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 10,),
                // Container(width: 20,color: Colors.green,),
                 Row(mainAxisAlignment: MainAxisAlignment.start ,children: [
 

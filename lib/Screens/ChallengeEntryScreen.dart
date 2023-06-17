@@ -69,11 +69,11 @@ class _challengeEntryScreenState extends State<challengeEntryScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Text('اسم المسابقة'),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   TextFormField(
                       style: const TextStyle(height: 0.5),
@@ -83,11 +83,11 @@ class _challengeEntryScreenState extends State<challengeEntryScreen> {
                       decoration:
                           const InputDecoration(border: OutlineInputBorder())),
                   SizedBox(
-                    height: 40,
+                    height: 10,
                   ),
                   Text('تاريخ المسابفة'),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   TextFormField(
                       style: const TextStyle(height: 0.5),
@@ -97,7 +97,7 @@ class _challengeEntryScreenState extends State<challengeEntryScreen> {
                       decoration:
                           const InputDecoration(border: OutlineInputBorder())),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   OutlinedButton(
                       onPressed: () async {
