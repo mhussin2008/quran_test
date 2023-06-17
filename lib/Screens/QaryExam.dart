@@ -5,9 +5,12 @@ import 'package:sqflite/sqflite.dart';
 import '../Data/DegreeData.dart';
 
 class QaryExam extends StatefulWidget {
-  const QaryExam({Key? key, required this.qaryName, required this.degree,}) : super(key: key);
+
+
+  const QaryExam({Key? key, required this.qaryName, required this.degree,required this.testName}) : super(key: key);
   final String qaryName;
   final int degree;
+  final String testName;
 
   @override
   State<QaryExam> createState() => _QaryExamState();
@@ -233,7 +236,7 @@ class _QaryExamState extends State<QaryExam> {
       try {
         await db.execute('''
         create table testtable (
-        testname TEXT NOT NULL UNIQUE ,
+        testname TEXT NOT NULL UNIQUE,
         testdate TEXT 
        )''');
       } catch (err) {
@@ -255,9 +258,9 @@ class _QaryExamState extends State<QaryExam> {
     int updateCount = await db.rawUpdate('''
     UPDATE datatable 
     SET  degree = ? 
-    WHERE qaryname = ?
+    WHERE qaryname = ? AND testname = ?
     ''',
-        [newdegree,widget.qaryName]);
+        [newdegree,widget.qaryName,widget.testName]);
 
     print(updateCount.toString());
   }

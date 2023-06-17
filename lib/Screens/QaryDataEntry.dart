@@ -211,7 +211,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                             QaryList.removeWhere(
                                     (element) => element.qaryName==dataGridController.selectedRow?.getCells().first.value);
                           });
-                          await DelSrowFromDb(qname);
+                          await DelSrowFromDb(qname,widget.testName);
 
                         }
                         //Navigator.pop(context);
@@ -231,7 +231,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                           await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => QaryExam(qaryName: Selected,degree: selected_deg ,)));
+                                  builder: (BuildContext context) => QaryExam(qaryName: Selected,degree: selected_deg ,testName: widget.testName)));
                         }
 
                         GetFromDb(widget.testName).then((value) => {
@@ -311,7 +311,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
       try {
         await db.execute('''
         create table datatable (
-        qaryname TEXT NOT NULL UNIQUE ,
+        qaryname TEXT NOT NULL ,
         qaryage INTEGER DEFAULT 0 ,
         degree INTEGER DEFAULT 100,
         testname TEXT NOT NULL
@@ -387,13 +387,13 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
   }
 
 
-  Future<void> DelSrowFromDb(String qname) async {
+  Future<void> DelSrowFromDb(String qname,String tname) async {
 
     var databasesPath = await getDatabasesPath();
     var dbFilePath = '$databasesPath/qary_dbase.db';
     late Database db;
     db = await openDatabase(dbFilePath);
-    await db.rawDelete('DELETE FROM datatable WHERE qaryname = ?',[qname]);
+    await db.rawDelete('DELETE FROM datatable WHERE qaryname = ? AND testname',[qname,tname]);
 
 
 
