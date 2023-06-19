@@ -285,10 +285,12 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
 
                       onPressed: () async {
                         String Selected='';
-                        int selected_deg=0;
+                        double selected_deg=0;
                         if(dataGridController.selectedRow != null){
                         Selected=dataGridController.selectedRow!.getCells().first.value.toString();
-                        selected_deg=int.parse(dataGridController.selectedRow!.getCells()[2].value.toString());
+                        if(dataGridController.selectedRow!.getCells()[2].value !=null){
+                        selected_deg=dataGridController.selectedRow!.getCells()[2].value;
+                        }
                         //selected_quest=int.parse(dataGridController.selectedRow!.getCells()[2].value.toString());
 
                           print(dataGridController.selectedRow?.getCells().first.value);
@@ -377,7 +379,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
         create table datatable (
         qaryname TEXT NOT NULL ,
         qaryage INTEGER DEFAULT 0 ,
-        degree INTEGER DEFAULT 100,
+        degree REAL DEFAULT 100.0,
         testname TEXT NOT NULL,
         questions INTEGER DEFAULT 4
        )''');

@@ -9,7 +9,7 @@ class QaryExam extends StatefulWidget {
 
   const QaryExam({Key? key, required this.qaryName, required this.degree,required this.testName, required this.questions}) : super(key: key);
   final String qaryName;
-  final int degree;
+  final double degree;
   final String testName;
   final int questions;
 
@@ -27,7 +27,7 @@ class _QaryExamState extends State<QaryExam> {
   @override
   void initState()  {
     // TODO: implement initState
-    mark=double.parse((widget.degree/widget.questions).toString());
+    mark=widget.degree/widget.questions;
 
     // CheckDbase().then((value) =>
     // {
@@ -235,7 +235,9 @@ class _QaryExamState extends State<QaryExam> {
                   children: [ OutlinedButton(
                       onPressed: () async {
                         if(await CheckDbase()=='Ok'){
-                          updateDb(int.parse(markController.text));
+                          updateDb(
+
+                              double.parse(markController.text));
                         }
 
                         Navigator.pop(context);
@@ -302,7 +304,7 @@ class _QaryExamState extends State<QaryExam> {
     return 'Ok';
   }
 
-  Future<void> updateDb(int newdegree)
+  Future<void> updateDb(double newdegree)
   async {
     var db = await openDatabase('qary_dbase.db');
 
@@ -317,7 +319,7 @@ class _QaryExamState extends State<QaryExam> {
     print(updateCount.toString());
   }
 
-  Future<int> GetDegree() async {
+  Future<double> GetDegree() async {
     var deg;
     var db = await openDatabase('qary_dbase.db');
     deg = await db.rawQuery('''

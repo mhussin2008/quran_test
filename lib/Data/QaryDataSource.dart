@@ -11,7 +11,7 @@ class QaryDataSource extends DataGridSource {
       ),
       DataGridCell<int>(
           columnName: 'age', value: e.qaryAge),
-      DataGridCell<int>(
+      DataGridCell<double>(
           columnName: 'degree', value: e.degree),
       DataGridCell<int>(
           columnName: 'questions', value: e.questions),
