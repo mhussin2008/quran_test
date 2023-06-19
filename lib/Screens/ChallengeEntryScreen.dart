@@ -34,14 +34,17 @@ class _challengeEntryScreenState extends State<challengeEntryScreen> {
     // });
 
 
-    CheckDbase().then((value) =>
-    {
+    CheckDbase().then((value) {
+      print(value);
+      return {
+
       if (value=='Ok'){
       GetFromDb().then((value) => {
         print('Loaded all data')
 
       })
     }
+    };
     }
     );
   }
@@ -332,8 +335,11 @@ class _challengeEntryScreenState extends State<challengeEntryScreen> {
     List<Map<String,dynamic>>? gotlist =
     await db.database.rawQuery('SELECT * FROM testtable');
     print(gotlist);
+    setState(() {
+      TestList.clear();
+    });
     if(gotlist.isNotEmpty){
-    TestList.clear();
+
     setState(() {
       gotlist.forEach((e) {
         {

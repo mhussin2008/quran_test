@@ -13,6 +13,8 @@ class QaryDataSource extends DataGridSource {
           columnName: 'age', value: e.qaryAge),
       DataGridCell<int>(
           columnName: 'degree', value: e.degree),
+      DataGridCell<int>(
+          columnName: 'questions', value: e.questions),
 
     ]))
         .toList().reversed.toList();

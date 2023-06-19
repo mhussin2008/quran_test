@@ -7,17 +7,18 @@ import '../Data/DegreeData.dart';
 class QaryExam extends StatefulWidget {
 
 
-  const QaryExam({Key? key, required this.qaryName, required this.degree,required this.testName}) : super(key: key);
+  const QaryExam({Key? key, required this.qaryName, required this.degree,required this.testName, required this.questions}) : super(key: key);
   final String qaryName;
   final int degree;
   final String testName;
+  final int questions;
 
   @override
   State<QaryExam> createState() => _QaryExamState();
 }
 
 class _QaryExamState extends State<QaryExam> {
-  int mark=0 ;
+  double mark=0 ;
   TextEditingController markController=TextEditingController();
   List<int> faultValue=DegreeData.degreeTable??[2,2,2,2,2];
 
@@ -26,7 +27,7 @@ class _QaryExamState extends State<QaryExam> {
   @override
   void initState()  {
     // TODO: implement initState
-    mark=widget.degree;
+    mark=double.parse((widget.degree/widget.questions).toString());
 
     // CheckDbase().then((value) =>
     // {

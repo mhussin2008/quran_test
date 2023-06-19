@@ -53,6 +53,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
 
     DataGridController dataGridController=DataGridController();
     QaryDataSource dataSource = QaryDataSource(qaryList: QaryList);
+    //dataGridController.addListener((){listnerFunction();});
 
     return Scaffold(
       appBar: AppBar(title: Text('  مسابقة  ${widget.testName}') ,backgroundColor: Colors.cyan,),
@@ -202,6 +203,18 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                   headerGridLinesVisibility: GridLinesVisibility.both,
                   controller: dataGridController,
                   source: dataSource,
+                  // onCellTap: (cellDetails){
+                  //     // setState(() {
+                  //     //
+                  //       print(cellDetails.rowColumnIndex.rowIndex-1);
+                  //       int x=(QaryList[cellDetails.rowColumnIndex.rowIndex-1].questions);
+                  //     //});
+                  //   setState(() {
+                  //     if(x==4){theSelected=[true,false];}
+                  //     else{theSelected=[false,true];}
+                  //   });
+                  //     //print(cellDetails.rowColumnIndex.rowIndex);
+                  // },
                   columns: <GridColumn>[
                     GridColumn(
 
@@ -230,7 +243,17 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                             padding: EdgeInsets.all(4.0),
                             alignment: Alignment.centerRight,
                             child: Text('الدرجة  ')))
+,                     GridColumn(
 
+                        columnName: 'questions',
+                        label: Container(
+                            color: Colors.cyanAccent,
+                            padding: EdgeInsets.all(4.0),
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              'الأسئلة',
+
+                            ))),
 
                   ].reversed.toList(),
                     ),
@@ -266,12 +289,13 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                         if(dataGridController.selectedRow != null){
                         Selected=dataGridController.selectedRow!.getCells().first.value.toString();
                         selected_deg=int.parse(dataGridController.selectedRow!.getCells()[2].value.toString());
+                        //selected_quest=int.parse(dataGridController.selectedRow!.getCells()[2].value.toString());
 
                           print(dataGridController.selectedRow?.getCells().first.value);
                           await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => QaryExam(qaryName: Selected,degree: selected_deg ,testName: widget.testName)));
+                                  builder: (BuildContext context) => QaryExam(qaryName: Selected,degree: selected_deg ,testName: widget.testName,questions: getQuestNum(theSelected[0]),)));
                         }
 
                         GetFromDb(widget.testName).then((value) => {
@@ -447,5 +471,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     else{return 5;}
 
   }
+
+
 
 }
