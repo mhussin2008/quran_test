@@ -24,6 +24,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
   //QaryDataSource dataSource=QaryDataSource(qaryList: QaryList);
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
+  List<bool> theSelected=<bool>[true,false];
 
   @override
   void initState() {
@@ -48,9 +49,11 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
 
   @override
   Widget build(BuildContext context) {
+    //var chkbox_value='4 أسئلة';
 
     DataGridController dataGridController=DataGridController();
     QaryDataSource dataSource = QaryDataSource(qaryList: QaryList);
+
     return Scaffold(
       appBar: AppBar(title: Text('  مسابقة  ${widget.testName}') ,backgroundColor: Colors.cyan,),
         resizeToAvoidBottomInset: true,
@@ -96,57 +99,93 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                 SizedBox(
                   height: 10,
                 ),
-                OutlinedButton(
-                    onPressed: () async {
-                      List<QaryData>? search=[];
-                     search=QaryList.where((element) => element.qaryName==nameController.text).toList();
-                      print(search);
-                      if(search.length>0){
-                        return;
-                      }
-                     //
-                      if (nameController.text.isNotEmpty &&
-                          ageController.text.isNotEmpty) {
-                        setState(()  {
-                          QaryList.add(QaryData.fromFields(nameController.text,
-                              int.parse(ageController.text),100,widget.testName));
-                            });
-                        String retVal=await  CheckDbase();
-                        if (retVal=='Ok'){
-                          print('ok');
-                          await AddtoDb();
-                        }
-                        Fluttertoast.showToast(
-                            msg: "تم إضافة بيانات الطالب بنجاح ",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.blueAccent,
-                            textColor: Colors.white,
-                            fontSize: 16.0);
-                        nameController.text = '';
-                        ageController.text = '';
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        print(QaryList.toString());
-                          print(QaryList.length.toDouble());
-                          dataGridController.refreshRow(QaryList.length);
-                         //dataGridController.scrollToRow(QaryList.length.toDouble());
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+
+                    OutlinedButton(
+                        onPressed: () async {
+                          List<QaryData>? search=[];
+                         search=QaryList.where((element) => element.qaryName==nameController.text).toList();
+                          print(search);
+                          if(search.length>0){
+                            return;
+                          }
+                         //
+                          if (nameController.text.isNotEmpty &&
+                              ageController.text.isNotEmpty) {
+                            setState(()  {
+                              QaryList.add(QaryData.fromFields(nameController.text,
+                                  int.parse(ageController.text),100,widget.testName,getQuestNum(theSelected[0])));
+                                });
+                            String retVal=await  CheckDbase();
+                            if (retVal=='Ok'){
+                              print('ok');
+                              await AddtoDb();
+                            }
+                            Fluttertoast.showToast(
+                                msg: "تم إضافة بيانات الطالب بنجاح ",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.blueAccent,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                            nameController.text = '';
+                            ageController.text = '';
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            print(QaryList.toString());
+                              print(QaryList.length.toDouble());
+                              dataGridController.refreshRow(QaryList.length);
+                             //dataGridController.scrollToRow(QaryList.length.toDouble());
 
 
 
-                        // Navigator.pop(context);
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: "بيانات الطالب غير مكتملة",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.red,
-                            textColor: Colors.white,
-                            fontSize: 16.0);
-                      }
-                    },
-                    child: Text('حفظ البيانات')),
+                            // Navigator.pop(context);
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: "بيانات الطالب غير مكتملة",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
+                        },
+                        child: Text('حفظ البيانات')),
+                    SizedBox(width: 20,),
+                    ToggleButtons(
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        selectedBorderColor: Colors.red[700],
+                        selectedColor: Colors.white,
+                        fillColor: Colors.red[200],
+                        color: Colors.red[400],
+                        constraints: const BoxConstraints(
+                          minHeight: 40.0,
+                          minWidth: 80.0,
+                        ),
+
+
+                      isSelected: theSelected,
+
+                        onPressed: (int toggleIndex) {
+                          print(toggleIndex);
+                          //theSelected=<bool>[false,true];
+                          setState(() {
+                            if(toggleIndex==1){theSelected=<bool>[false,true];}
+                            else{theSelected=<bool>[true,false];}
+                            print(theSelected);
+                            // The button that is tapped is set to true, and the others to false.
+
+                          });
+                        },
+                      //color: Colors.white,
+                        //fillColor: Colors.white,
+                        children: [Text('4 أسئلة',textDirection: TextDirection.rtl,),Text('5 أسئلة',textDirection: TextDirection.rtl)]),
+                  ],
+                ),
                 SizedBox(
                   height: 10,
                 ),
@@ -217,7 +256,8 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                         //Navigator.pop(context);
                       },
                       child: Text('مسح بيانات \n الطالب')),
-
+//////////////////////////////////////////////////////////////////////////////////////////////////
+                //////////////////////////////////////////
                   OutlinedButton(
 
                       onPressed: () async {
@@ -314,7 +354,8 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
         qaryname TEXT NOT NULL ,
         qaryage INTEGER DEFAULT 0 ,
         degree INTEGER DEFAULT 100,
-        testname TEXT NOT NULL
+        testname TEXT NOT NULL,
+        questions INTEGER DEFAULT 4
        )''');
       } catch (err) {
         if (err.toString().contains('DatabaseException') == true) {
@@ -341,9 +382,9 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     late Database db;
     db = await openDatabase(dbFilePath);
     int age=int.parse(ageController.text);
-    String line=''' '${nameController.text}', $age , 100, '${widget.testName}'  ''';
+    String line=''' '${nameController.text}', $age , 100, '${widget.testName}', ${getQuestNum(theSelected[0])}  ''';
     String insertString =
-    '''INSERT INTO datatable ( qaryname, qaryage, degree, testname) VALUES ( ${line} )''';
+    '''INSERT INTO datatable ( qaryname, qaryage, degree, testname, questions) VALUES ( ${line} )''';
     print(insertString);
     await db.execute(insertString);
 
@@ -367,7 +408,8 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
       gotlist.forEach((e) {
         {
           //QaryList.add(QaryData.fromJson(e));
-         QaryList.add(QaryData.fromFields(e['qaryname'],e['qaryage'],e['degree'],e['testname']));
+          int qn=getQuestNum(theSelected[0]);
+         QaryList.add(QaryData.fromFields(e['qaryname'],e['qaryage'],e['degree'],e['testname'], qn  ));
       };
     });
     print(QaryList);
@@ -393,10 +435,16 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     var dbFilePath = '$databasesPath/qary_dbase.db';
     late Database db;
     db = await openDatabase(dbFilePath);
-    await db.rawDelete('DELETE FROM datatable WHERE qaryname = ? AND testname',[qname,tname]);
+    await db.rawDelete('DELETE FROM datatable WHERE qaryname = ? AND testname = ?',[qname,tname]);
 
 
 
+
+  }
+
+  int getQuestNum(bool theInput){
+    if(theInput==true){return 4;}
+    else{return 5;}
 
   }
 

@@ -13,16 +13,17 @@ class QaryData {
   final int qaryAge;
   final int degree;
   final String testName;
-  QaryData(this.qaryName, this.qaryAge, this.degree, this.testName);
+  final int questions;
+  QaryData(this.qaryName, this.qaryAge, this.degree, this.testName, this.questions);
 
-  factory QaryData.fromJson(Map<String, dynamic> json) => QaryData(json['qaryName'],json['qaryAge'],json['degree'],json['testName']);
-  factory QaryData.fromFields(String name,int age,int deg,String tname)=>QaryData(name, age,deg,tname);
+  factory QaryData.fromJson(Map<String, dynamic> json) => QaryData(json['qaryName'],json['qaryAge'],json['degree'],json['testName'],json['questions']);
+  factory QaryData.fromFields(String name,int age,int deg,String tname,int quest)=>QaryData(name, age,deg,tname,quest);
 
   Map<String, dynamic> toJson() => {
   };
 
   @override
-  String toString(){return 'Qary Name is ${qaryName} , his age is ${qaryAge}';}
+  String toString(){return 'Qary Name is ${qaryName} , his age is ${qaryAge} \n question ${questions} ';}
 
 
 

@@ -21,6 +21,8 @@ class _QaryExamState extends State<QaryExam> {
   TextEditingController markController=TextEditingController();
   List<int> faultValue=DegreeData.degreeTable??[2,2,2,2,2];
 
+  var theSelected=[true,false,false,false];
+
   @override
   void initState()  {
     // TODO: implement initState
@@ -68,6 +70,55 @@ class _QaryExamState extends State<QaryExam> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
+                SizedBox(height: 10,),
+                ToggleButtons(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    selectedBorderColor: Colors.red[700],
+                    selectedColor: Colors.white,
+                    fillColor: Colors.red[200],
+                    color: Colors.pink[900],
+                    constraints: const BoxConstraints(
+                      minHeight: 40.0,
+                      minWidth: 80.0,
+                    ),
+
+
+                    isSelected: theSelected,
+
+                    onPressed: (int toggleIndex) {
+                      print(toggleIndex);
+                      //theSelected=<bool>[false,true];
+                      setState(() {
+                        switch (toggleIndex){
+                        case 0:
+                          theSelected=<bool>[true,false,false,false];
+                          break;
+                          case 1:
+                            theSelected=<bool>[false,true,false,false];
+                            break;
+                          case 2:
+                            theSelected=<bool>[false,false,true,false];
+                            break;
+                          case 3:
+                            theSelected=<bool>[false,false,false,true];
+                            break;
+                        }
+
+
+                        print(theSelected);
+                        // The button that is tapped is set to true, and the others to false.
+
+                      });
+                    },
+                    //color: Colors.white,
+                    //fillColor: Colors.white,
+                    children: [
+                      Text('السؤال الأول',textDirection: TextDirection.rtl,),
+                      Text('السؤال الثانى',textDirection: TextDirection.rtl),
+                      Text('السؤال الثالث',textDirection: TextDirection.rtl),
+                     Text('السؤال الرابع',textDirection: TextDirection.rtl)].reversed.toList()
+                                       ),
+
                 Center(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
