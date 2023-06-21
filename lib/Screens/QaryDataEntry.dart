@@ -56,8 +56,9 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     //dataGridController.addListener((){listnerFunction();});
 
     return Scaffold(
+        resizeToAvoidBottomInset: false,
       appBar: AppBar(title: Text('  مسابقة  ${widget.testName}') ,backgroundColor: Colors.cyan,),
-        resizeToAvoidBottomInset: true,
+
         body: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
@@ -65,292 +66,290 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
               )
           ),
           padding: const EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text('اسم الطالب'),
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                    style: const TextStyle(height: 0.5),
-                    keyboardType: TextInputType.text,
-                    textDirection: TextDirection.rtl,
-                    controller: nameController,
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder())),
-                SizedBox(
-                  height: 20,
-                ),
-                Text('عمر الطالب'),
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                    style: const TextStyle(height: 0.5),
-                    keyboardType: TextInputType.number,
-                    textDirection: TextDirection.rtl,
-                    controller: ageController,
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder())),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Text('اسم الطالب'),
+              SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                  style: const TextStyle(height: 0.5),
+                  keyboardType: TextInputType.text,
+                  textDirection: TextDirection.rtl,
+                  controller: nameController,
+                  decoration:
+                      const InputDecoration(border: OutlineInputBorder())),
+              SizedBox(
+                height: 20,
+              ),
+              Text('عمر الطالب'),
+              SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                  style: const TextStyle(height: 0.5),
+                  keyboardType: TextInputType.number,
+                  textDirection: TextDirection.rtl,
+                  controller: ageController,
+                  decoration:
+                      const InputDecoration(border: OutlineInputBorder())),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
 
-
-                    OutlinedButton(
-                        onPressed: () async {
-                          List<QaryData>? search=[];
-                         search=QaryList.where((element) => element.qaryName==nameController.text).toList();
-                          print(search);
-                          if(search.length>0){
-                            return;
-                          }
-                         //
-                          if (nameController.text.isNotEmpty &&
-                              ageController.text.isNotEmpty) {
-                            setState(()  {
-                              QaryList.add(QaryData.fromFields(nameController.text,
-                                  int.parse(ageController.text),100,widget.testName,getQuestNum(theSelected[0])));
-                                });
-                            String retVal=await  CheckDbase();
-                            if (retVal=='Ok'){
-                              print('ok');
-                              await AddtoDb();
-                            }
-                            Fluttertoast.showToast(
-                                msg: "تم إضافة بيانات الطالب بنجاح ",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.blueAccent,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
-                            nameController.text = '';
-                            ageController.text = '';
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            print(QaryList.toString());
-                              print(QaryList.length.toDouble());
-                              dataGridController.refreshRow(QaryList.length);
-                             //dataGridController.scrollToRow(QaryList.length.toDouble());
-
-
-
-                            // Navigator.pop(context);
-                          } else {
-                            Fluttertoast.showToast(
-                                msg: "بيانات الطالب غير مكتملة",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.red,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
-                          }
-                        },
-                        child: Text('حفظ البيانات')),
-                    SizedBox(width: 20,),
-                    ToggleButtons(
-                        borderRadius: const BorderRadius.all(Radius.circular(8)),
-                        selectedBorderColor: Colors.red[700],
-                        selectedColor: Colors.white,
-                        fillColor: Colors.red[200],
-                        color: Colors.red[400],
-                        constraints: const BoxConstraints(
-                          minHeight: 40.0,
-                          minWidth: 80.0,
-                        ),
-
-
-                      isSelected: theSelected,
-
-                        onPressed: (int toggleIndex) {
-                          print(toggleIndex);
-                          //theSelected=<bool>[false,true];
-                          setState(() {
-                            if(toggleIndex==1){theSelected=<bool>[false,true];}
-                            else{theSelected=<bool>[true,false];}
-                            print(theSelected);
-                            // The button that is tapped is set to true, and the others to false.
-
-                          });
-                        },
-                      //color: Colors.white,
-                        //fillColor: Colors.white,
-                        children: [Text('4 أسئلة',textDirection: TextDirection.rtl,),Text('5 أسئلة',textDirection: TextDirection.rtl)]),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 200,
-                  //color: Colors.tealAccent,
-                  child: SfDataGrid(
-                    allowEditing: true,
-                  allowSorting: true,
-                  selectionMode: SelectionMode.single,
-                  columnWidthMode: ColumnWidthMode.fill,
-                  isScrollbarAlwaysShown: true,
-                  gridLinesVisibility: GridLinesVisibility.both,
-                  headerGridLinesVisibility: GridLinesVisibility.both,
-                  controller: dataGridController,
-                  source: dataSource,
-                  // onCellTap: (cellDetails){
-                  //     // setState(() {
-                  //     //
-                  //       print(cellDetails.rowColumnIndex.rowIndex-1);
-                  //       int x=(QaryList[cellDetails.rowColumnIndex.rowIndex-1].questions);
-                  //     //});
-                  //   setState(() {
-                  //     if(x==4){theSelected=[true,false];}
-                  //     else{theSelected=[false,true];}
-                  //   });
-                  //     //print(cellDetails.rowColumnIndex.rowIndex);
-                  // },
-                  columns: <GridColumn>[
-                    GridColumn(
-
-                        columnName: 'name',
-                        label: Container(
-                              color: Colors.cyanAccent,
-                            padding: EdgeInsets.all(4.0),
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                             'اسم الطالب',
-
-                            ))),
-                    GridColumn(
-
-                        columnName: 'age',
-                        label: Container(
-                            color: Colors.cyanAccent,
-                            padding: EdgeInsets.all(4.0),
-                            alignment: Alignment.centerRight,
-                            child: Text('عمر الطالب  '))),
-
-                    GridColumn(
-                        columnName: 'degree',
-                        label: Container(
-                            color: Colors.cyanAccent,
-                            padding: EdgeInsets.all(4.0),
-                            alignment: Alignment.centerRight,
-                            child: Text('الدرجة  ')))
-,                     GridColumn(
-
-                        columnName: 'questions',
-                        label: Container(
-                            color: Colors.cyanAccent,
-                            padding: EdgeInsets.all(4.0),
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              'الأسئلة',
-
-                            ))),
-
-                  ].reversed.toList(),
-                    ),
-                ),
-                SizedBox(height: 10,),
-               // Container(width: 20,color: Colors.green,),
-                Row(mainAxisAlignment: MainAxisAlignment.start ,children: [
 
                   OutlinedButton(
-
                       onPressed: () async {
-                        if(dataGridController.selectedRow != null){
-                          print(dataGridController.selectedRow?.getCells().first.value);
-                          String qname=dataGridController.selectedRow?.getCells().first.value;
-
-                          setState(() {
-                            QaryList.removeWhere(
-                                    (element) => element.qaryName==dataGridController.selectedRow?.getCells().first.value);
-                          });
-                          await DelSrowFromDb(qname,widget.testName);
-
+                        List<QaryData>? search=[];
+                       search=QaryList.where((element) => element.qaryName==nameController.text).toList();
+                        print(search);
+                        if(search.length>0){
+                          return;
                         }
-                        //Navigator.pop(context);
+                       //
+                        if (nameController.text.isNotEmpty &&
+                            ageController.text.isNotEmpty) {
+                          setState(()  {
+                            QaryList.add(QaryData.fromFields(nameController.text,
+                                int.parse(ageController.text),100,widget.testName,getQuestNum(theSelected[0])));
+                              });
+                          String retVal=await  CheckDbase();
+                          if (retVal=='Ok'){
+                            print('ok');
+                            await AddtoDb();
+                          }
+                          Fluttertoast.showToast(
+                              msg: "تم إضافة بيانات الطالب بنجاح ",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.blueAccent,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                          nameController.text = '';
+                          ageController.text = '';
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          print(QaryList.toString());
+                            print(QaryList.length.toDouble());
+                            dataGridController.refreshRow(QaryList.length);
+                           //dataGridController.scrollToRow(QaryList.length.toDouble());
+
+
+
+                          // Navigator.pop(context);
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: "بيانات الطالب غير مكتملة",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        }
                       },
-                      child: Text('مسح بيانات \n الطالب')),
-//////////////////////////////////////////////////////////////////////////////////////////////////
-                //////////////////////////////////////////
-                  OutlinedButton(
+                      child: Text('حفظ البيانات')),
+                  SizedBox(width: 20,),
+                  ToggleButtons(
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      selectedBorderColor: Colors.red[700],
+                      selectedColor: Colors.white,
+                      fillColor: Colors.red[200],
+                      color: Colors.red[400],
+                      constraints: const BoxConstraints(
+                        minHeight: 40.0,
+                        minWidth: 80.0,
+                      ),
 
-                      onPressed: () async {
-                        String Selected='';
-                        double selected_deg=0;
-                        int selected_quest=4;
-                        if(dataGridController.selectedRow != null){
-                        Selected=dataGridController.selectedRow!.getCells().first.value.toString();
-                        if(dataGridController.selectedRow!.getCells()[2].value !=null){
-                        selected_deg=dataGridController.selectedRow!.getCells()[2].value;
-                        }
-                        if(dataGridController.selectedRow!.getCells()[3].value !=null){
-                          selected_quest=dataGridController.selectedRow!.getCells()[3].value;
-                        }
-                        //selected_quest=int.parse(dataGridController.selectedRow!.getCells()[2].value.toString());
 
-                          print(dataGridController.selectedRow?.getCells().first.value);
-                          await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) => QaryExam(qaryName: Selected,degree: selected_deg ,testName: widget.testName,questions: selected_quest ,)));
-                        }
+                    isSelected: theSelected,
 
-                        GetFromDb(widget.testName).then((value) => {
-                          print('Loaded all data')
+                      onPressed: (int toggleIndex) {
+                        print(toggleIndex);
+                        //theSelected=<bool>[false,true];
+                        setState(() {
+                          if(toggleIndex==1){theSelected=<bool>[false,true];}
+                          else{theSelected=<bool>[true,false];}
+                          print(theSelected);
+                          // The button that is tapped is set to true, and the others to false.
 
                         });
-                        // setState(() {
-                        // print('updating');
-                        // });
-                        //Navigator.pop(context);
                       },
-                      child: Text('بدء الإختبار')),
-
-                  OutlinedButton(
-                      onPressed: () async {
-                        String result= await showDialog(
-                            context: context,
-                            builder: (BuildContext context) => const DialogScreen());
-
-                        print(result);
-                        if(result=='OK'){
-                          print('deleting');
-                          setState(() {
-                            QaryList.clear();
-                          });
-                          CheckDbase().then(
-                                  (value) async {
-                                    if(value=='Ok'){
-                                      await ClearDb();
-                                    };
-                                  });
-                        }
-
-                      },
-                      child: Text('مسح الجدول \n بالكامل')),
-
-
+                    //color: Colors.white,
+                      //fillColor: Colors.white,
+                      children: [Text('4 أسئلة',textDirection: TextDirection.rtl,),Text('5 أسئلة',textDirection: TextDirection.rtl)]),
                 ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 200,
+                //color: Colors.tealAccent,
+                child: SfDataGrid(
+                  allowEditing: true,
+                allowSorting: true,
+                selectionMode: SelectionMode.single,
+                columnWidthMode: ColumnWidthMode.fill,
+                isScrollbarAlwaysShown: true,
+                gridLinesVisibility: GridLinesVisibility.both,
+                headerGridLinesVisibility: GridLinesVisibility.both,
+                controller: dataGridController,
+                source: dataSource,
+                // onCellTap: (cellDetails){
+                //     // setState(() {
+                //     //
+                //       print(cellDetails.rowColumnIndex.rowIndex-1);
+                //       int x=(QaryList[cellDetails.rowColumnIndex.rowIndex-1].questions);
+                //     //});
+                //   setState(() {
+                //     if(x==4){theSelected=[true,false];}
+                //     else{theSelected=[false,true];}
+                //   });
+                //     //print(cellDetails.rowColumnIndex.rowIndex);
+                // },
+                columns: <GridColumn>[
+                  GridColumn(
 
+                      columnName: 'name',
+                      label: Container(
+                            color: Colors.cyanAccent,
+                          padding: EdgeInsets.all(4.0),
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                           'اسم الطالب',
 
-                ),
+                          ))),
+                  GridColumn(
+
+                      columnName: 'age',
+                      label: Container(
+                          color: Colors.cyanAccent,
+                          padding: EdgeInsets.all(4.0),
+                          alignment: Alignment.centerRight,
+                          child: Text('عمر الطالب  '))),
+
+                  GridColumn(
+                      columnName: 'degree',
+                      label: Container(
+                          color: Colors.cyanAccent,
+                          padding: EdgeInsets.all(4.0),
+                          alignment: Alignment.centerRight,
+                          child: Text('الدرجة  ')))
+,                     GridColumn(
+
+                      columnName: 'questions',
+                      label: Container(
+                          color: Colors.cyanAccent,
+                          padding: EdgeInsets.all(4.0),
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            'الأسئلة',
+
+                          ))),
+
+                ].reversed.toList(),
+                  ),
+              ),
+              SizedBox(height: 10,),
+             // Container(width: 20,color: Colors.green,),
+              Row(mainAxisAlignment: MainAxisAlignment.start ,children: [
+
                 OutlinedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
+
+                    onPressed: () async {
+                      if(dataGridController.selectedRow != null){
+                        print(dataGridController.selectedRow?.getCells().first.value);
+                        String qname=dataGridController.selectedRow?.getCells().first.value;
+
+                        setState(() {
+                          QaryList.removeWhere(
+                                  (element) => element.qaryName==dataGridController.selectedRow?.getCells().first.value);
+                        });
+                        await DelSrowFromDb(qname,widget.testName);
+
+                      }
+                      //Navigator.pop(context);
                     },
-                    child: Text('عودة الى الشاشة الرئيسية')),
+                    child: Text('مسح بيانات \n الطالب')),
+//////////////////////////////////////////////////////////////////////////////////////////////////
+              //////////////////////////////////////////
+                OutlinedButton(
+
+                    onPressed: () async {
+                      String Selected='';
+                      double selected_deg=0;
+                      int selected_quest=4;
+                      if(dataGridController.selectedRow != null){
+                      Selected=dataGridController.selectedRow!.getCells().first.value.toString();
+                      if(dataGridController.selectedRow!.getCells()[2].value !=null){
+                      selected_deg=dataGridController.selectedRow!.getCells()[2].value;
+                      }
+                      if(dataGridController.selectedRow!.getCells()[3].value !=null){
+                        selected_quest=dataGridController.selectedRow!.getCells()[3].value;
+                      }
+                      //selected_quest=int.parse(dataGridController.selectedRow!.getCells()[2].value.toString());
+
+                        print(dataGridController.selectedRow?.getCells().first.value);
+                        await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => QaryExam(qaryName: Selected,degree: selected_deg ,testName: widget.testName,questions: selected_quest ,)));
+                      }
+
+                      GetFromDb(widget.testName).then((value) => {
+                        print('Loaded all data')
+
+                      });
+                      // setState(() {
+                      // print('updating');
+                      // });
+                      //Navigator.pop(context);
+                    },
+                    child: Text('بدء الإختبار')),
+
+                OutlinedButton(
+                    onPressed: () async {
+                      String result= await showDialog(
+                          context: context,
+                          builder: (BuildContext context) => const DialogScreen());
+
+                      print(result);
+                      if(result=='OK'){
+                        print('deleting');
+                        setState(() {
+                          QaryList.clear();
+                        });
+                        CheckDbase().then(
+                                (value) async {
+                                  if(value=='Ok'){
+                                    await ClearDb();
+                                  };
+                                });
+                      }
+
+                    },
+                    child: Text('مسح الجدول \n بالكامل')),
+
 
               ],
-            ),
+
+
+              ),
+              OutlinedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('عودة الى الشاشة الرئيسية')),
+
+            ],
           ),
         ));
   }
