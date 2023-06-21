@@ -23,7 +23,7 @@ class _QaryExamState extends State<QaryExam> {
 
   double mark=0 ;
   List<TextEditingController> markController=[];
-  List<int> faultValue=DegreeData.degreeTable??[2,2,2,2,2];
+  List<double> faultValue=DegreeData.degreeTable??[2.0,2.0,2.0,2.0,2.0];
   List<String> qNamesAll=['الأول',
   'الثانى','الثالث','الرابع','الخامس'];
 
@@ -272,7 +272,7 @@ class _QaryExamState extends State<QaryExam> {
     );
   }
 
-  void decreaseMark(int fValue) {
+  void decreaseMark(double fValue) {
     int sel=theSelected.indexWhere((element) => element==true);
     print(sel);
     if( questionList[sel]-fValue<=0){

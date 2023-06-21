@@ -71,7 +71,7 @@ class _DegreeTableState extends State<DegreeTable> {
                 // }).toList();
                 DegreeData.degreeTable.clear();
                 tEditContoller.forEach((element) {
-                  DegreeData.degreeTable.add(int.parse(element.text));
+                  DegreeData.degreeTable.add(double.parse(element.text));
                 });
                 //print(DegreeData.degreeTable);
                 Navigator.pop(context);

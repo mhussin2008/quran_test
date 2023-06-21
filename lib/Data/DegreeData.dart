@@ -1,8 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 class DegreeData{
-  static List<int> degreeTable=[2,2,2,2,2];
+  static List<double> degreeTable=[2.0,2.0,2.0,2.0,2.0];
   static List<String> faultList=['صحح له المعلم','صحح بنفسه','التردد','خطأ التجويد','خطأ الوقف والإبتداء'];
-  static List<String>? degreeTableS=['2','2','2','2','2'];
+  static List<String>? degreeTableS=['2.0','2.0','2.0','2.0','2.0'];
 
 
   static Future<void> getDegreeData() async{
@@ -15,7 +15,7 @@ class DegreeData{
       degreeTable.clear();
 
     degreeTableS!.forEach((element) {
-      degreeTable.add(int.parse(element));
+      degreeTable.add(double.parse(element));
 
     });
     }else{print('it is null');}
