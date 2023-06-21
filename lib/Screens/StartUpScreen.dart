@@ -24,7 +24,7 @@ class startUpScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text('Start Up Screen'),
+              Center(child: Text('Start Up Screen')),
 
               //SizedBox(height: 10),
               OutlinedButton(

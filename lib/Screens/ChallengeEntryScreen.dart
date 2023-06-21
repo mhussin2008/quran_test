@@ -169,7 +169,7 @@ class _challengeEntryScreenState extends State<challengeEntryScreen> {
                         columnName: 'name',
                         label: Container(
                               color: Colors.cyanAccent,
-                            padding: EdgeInsets.all(16.0),
+                            padding: EdgeInsets.all(2.0),
                             alignment: Alignment.centerRight,
                             child: Text(
                              'اسم المسابقة',
@@ -179,7 +179,7 @@ class _challengeEntryScreenState extends State<challengeEntryScreen> {
                         columnName: 'age',
                         label: Container(
                             color: Colors.cyanAccent,
-                            padding: EdgeInsets.all(16.0),
+                            padding: EdgeInsets.all(2.0),
                             alignment: Alignment.centerRight,
                             child: Text('تاريخ المسابقة ')))
                   ].reversed.toList(),
