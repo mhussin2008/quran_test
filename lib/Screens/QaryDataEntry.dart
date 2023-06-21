@@ -3,7 +3,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:quran_test/Screens/QaryExam.dart';
+import 'package:quran_test/Screens/QaryExamScreen.dart';
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:quran_test/Data/qaryData.dart';
@@ -286,10 +286,14 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                       onPressed: () async {
                         String Selected='';
                         double selected_deg=0;
+                        int selected_quest=4;
                         if(dataGridController.selectedRow != null){
                         Selected=dataGridController.selectedRow!.getCells().first.value.toString();
                         if(dataGridController.selectedRow!.getCells()[2].value !=null){
                         selected_deg=dataGridController.selectedRow!.getCells()[2].value;
+                        }
+                        if(dataGridController.selectedRow!.getCells()[3].value !=null){
+                          selected_quest=dataGridController.selectedRow!.getCells()[3].value;
                         }
                         //selected_quest=int.parse(dataGridController.selectedRow!.getCells()[2].value.toString());
 
@@ -297,7 +301,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                           await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => QaryExam(qaryName: Selected,degree: selected_deg ,testName: widget.testName,questions: getQuestNum(theSelected[0]),)));
+                                  builder: (BuildContext context) => QaryExam(qaryName: Selected,degree: selected_deg ,testName: widget.testName,questions: selected_quest ,)));
                         }
 
                         GetFromDb(widget.testName).then((value) => {
@@ -434,8 +438,8 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
       gotlist.forEach((e) {
         {
           //QaryList.add(QaryData.fromJson(e));
-          int qn=getQuestNum(theSelected[0]);
-         QaryList.add(QaryData.fromFields(e['qaryname'],e['qaryage'],e['degree'],e['testname'], qn  ));
+          //int qn=getQuestNum(theSelected[0]);
+         QaryList.add(QaryData.fromFields(e['qaryname'],e['qaryage'],e['degree'],e['testname'], e['questions']  ));
       };
     });
     print(QaryList);

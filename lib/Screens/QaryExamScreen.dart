@@ -18,12 +18,19 @@ class QaryExam extends StatefulWidget {
 }
 
 class _QaryExamState extends State<QaryExam> {
+
+
+
   double mark=0 ;
   List<TextEditingController> markController=[];
   List<int> faultValue=DegreeData.degreeTable??[2,2,2,2,2];
+  List<String> qNamesAll=['الأول',
+  'الثانى','الثالث','الرابع','الخامس'];
 
-  var theSelected=[true,false,false,false,false];
+  var theSelectedAll=[false,false,false,false,false];
+  List<bool> theSelected=[];
   List<double> questionList=[];
+  List<Text> txtList=[];
 
   @override
   void initState()  {
@@ -33,6 +40,9 @@ class _QaryExamState extends State<QaryExam> {
     questionList=List.generate(widget.questions, (index) => mark);
     markController=List.generate(widget.questions, (index) => TextEditingController());
     markController.forEach((element) {element.text=mark.toString(); });
+    print(widget.questions);
+    updateSelected();
+
     // CheckDbase().then((value) =>
     // {
     //   if (value=='Ok'){
@@ -51,10 +61,23 @@ class _QaryExamState extends State<QaryExam> {
 
   }
 
+  void updateSelected() {
+    theSelected.clear();
+    txtList.clear();
+    for(int i=0;i<widget.questions;i++){
+      theSelected.add(theSelectedAll[i]);
+
+      txtList.add(Text(qNamesAll[i],textDirection: TextDirection.rtl));
+
+    }
+    theSelected[widget.questions-1]=true;
+  }
+
   @override
   Widget build(BuildContext context) {
       for( int i=0;i<markController.length;i++){
     markController[i].text=questionList[i].toString() ;}
+      //updateSelected();
 
 
    // markController.text=mark.toString();
@@ -76,6 +99,8 @@ class _QaryExamState extends State<QaryExam> {
             children: [
               SizedBox(height: 10,),
               ToggleButtons(
+
+
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                   selectedBorderColor: Colors.red[700],
                   selectedColor: Colors.white,
@@ -83,35 +108,22 @@ class _QaryExamState extends State<QaryExam> {
                   color: Colors.pink[900],
                   constraints: const BoxConstraints(
                     minHeight: 40.0,
-                    minWidth: 80.0,
+                    minWidth: 60.0,
                   ),
 
 
-                  isSelected: theSelected,
+                  isSelected: theSelected,//.reversed.toList(),
 
                   onPressed: (int toggleIndex) {
                     print(toggleIndex);
                     //theSelected=<bool>[false,true];
+                    theSelected.clear();
+                    theSelected=theSelectedAll.sublist(0,widget.questions);
+                    theSelected[0]=false;
                     setState(() {
-                      switch (toggleIndex){
-                      case 0:
-                        theSelected=<bool>[true,false,false,false,false];
-                        break;
-                        case 1:
-                          theSelected=<bool>[false,true,false,false,false];
-                          break;
-                        case 2:
-                          theSelected=<bool>[false,false,true,false,false];
-                          break;
-                        case 3:
-                          theSelected=<bool>[false,false,false,true,false];
-                          break;
-                        case 4:
-                          theSelected=<bool>[false,false,false,false,true];
 
-                          break;
+                      theSelected[toggleIndex]=true;
 
-                      }
 
 
                       print(theSelected);
@@ -121,14 +133,7 @@ class _QaryExamState extends State<QaryExam> {
                   },
                   //color: Colors.white,
                   //fillColor: Colors.white,
-                  children: [
-                    Text('السؤال الأول',textDirection: TextDirection.rtl,),
-                    Text('السؤال الثانى',textDirection: TextDirection.rtl),
-                    Text('السؤال الثالث',textDirection: TextDirection.rtl),
-                   Text('السؤال الرابع',textDirection: TextDirection.rtl),
-                    Text('السؤال الخامس',textDirection: TextDirection.rtl)
-
-                  ].reversed.toList()
+                  children: txtList.reversed.toList()
                                      ),
 
               Center(
@@ -137,7 +142,7 @@ class _QaryExamState extends State<QaryExam> {
                   children:
                   markController.asMap().entries.map((e) =>
                       SizedBox(
-                        width: 80,
+                        width: 60,
                         child: TextField(
                           keyboardType: TextInputType.number,
                           controller: markController[e.key],
@@ -268,10 +273,15 @@ class _QaryExamState extends State<QaryExam> {
   }
 
   void decreaseMark(int fValue) {
+    int sel=theSelected.indexWhere((element) => element==true);
+    print(sel);
+    if( questionList[sel]-fValue<=0){
+
+      questionList[sel]=0; }else{
+      questionList[sel]-=fValue;}
+
     setState(() {
-      int sel=theSelected.indexWhere((element) => element==true);
-      print(sel);
-      questionList[sel]-=fValue;
+
 
     });
   }

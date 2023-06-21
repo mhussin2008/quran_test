@@ -1,7 +1,7 @@
 //import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
-import 'package:quran_test/Screens/QaryExam.dart';
+import 'package:quran_test/Screens/QaryExamScreen.dart';
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 //import 'package:quran_test/Data/qaryData.dart';
