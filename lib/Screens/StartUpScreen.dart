@@ -6,6 +6,7 @@ import 'package:quran_test/Screens/ChallengeEntryScreen.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'DegreeTableScreen.dart';
+import 'DialogScreen.dart';
 
 class startUpScreen extends StatelessWidget {
   const startUpScreen({Key? key}) : super(key: key);
@@ -31,8 +32,16 @@ class startUpScreen extends StatelessWidget {
               //SizedBox(height: 10),
               OutlinedButton(
                   onPressed: () async {
+
+                  String result= await showDialog(
+                  context: context,
+                  builder: (BuildContext context) => const DialogScreen());
+
+                  print(result);
+                  if(result=='OK'){
+                  print('deleting');
                   await deleteDB();
-                  },
+                  }},
                   child: Text('مسح قاعدة البيانات')),
              // SizedBox(height: 10),
               OutlinedButton(

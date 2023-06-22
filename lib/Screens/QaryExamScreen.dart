@@ -82,191 +82,196 @@ class _QaryExamState extends State<QaryExam> {
 
    // markController.text=mark.toString();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: Colors.cyan,
         title:  Center(child: Text('${widget.qaryName} إختبار '))),
-      body: SingleChildScrollView(
-        child: Container(
-
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/jpg/back.jpg' ),fit: BoxFit.cover
-              )
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              SizedBox(height: 10,),
-              ToggleButtons(
-
-
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  selectedBorderColor: Colors.red[700],
-                  selectedColor: Colors.white,
-                  fillColor: Colors.red[200],
-                  color: Colors.pink[900],
-                  constraints: const BoxConstraints(
-                    minHeight: 40.0,
-                    minWidth: 60.0,
-                  ),
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/jpg/back.jpg' ),fit: BoxFit.cover
+            )
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const SizedBox(height: 10,),
+            ToggleButtons(
 
 
-                  isSelected: theSelected,//.reversed.toList(),
-
-                  onPressed: (int toggleIndex) {
-                    print(toggleIndex);
-                    //theSelected=<bool>[false,true];
-                    theSelected.clear();
-                    theSelected=theSelectedAll.sublist(0,widget.questions);
-                    theSelected[0]=false;
-                    setState(() {
-
-                      theSelected[toggleIndex]=true;
-
-
-
-                      print(theSelected);
-                      // The button that is tapped is set to true, and the others to false.
-
-                    });
-                  },
-                  //color: Colors.white,
-                  //fillColor: Colors.white,
-                  children: txtList.reversed.toList()
-                                     ),
-
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children:
-                  markController.asMap().entries.map((e) =>
-                      SizedBox(
-                        width: 60,
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller: markController[e.key],
-                          style: const TextStyle(
-                              fontSize: 20
-                          ),
-
-                        ),
-                      )
-                  ).toList()
-
-
-
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                selectedBorderColor: Colors.red[700],
+                selectedColor: Colors.white,
+                fillColor: Colors.red[200],
+                color: Colors.pink[900],
+                constraints: const BoxConstraints(
+                  minHeight: 40.0,
+                  minWidth: 60.0,
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  OutlinedButton(
-                      onPressed: () {
-                        decreaseMark(faultValue[0]);
-                      },
-                      style: ElevatedButton.styleFrom(
 
-                        padding: const EdgeInsets.all(20),
-                        backgroundColor: Colors.blue, // <-- Button color
-                        foregroundColor: Colors.black, // <-- Splash color
-                      ),
-                      child: Text('${DegreeData.faultList[0]}\n${faultValue[0]}',
-                      textAlign: TextAlign.center
-                      ,style: TextStyle(fontSize: 20),)),
-                  const SizedBox(width: 10,),
-                  OutlinedButton(
-                      onPressed: () {
-                        decreaseMark(faultValue[1]);
-                      },
-                      style: ElevatedButton.styleFrom(
 
-                        padding: const EdgeInsets.all(20),
-                        backgroundColor: Colors.blue, // <-- Button color
-                        foregroundColor: Colors.black, // <-- Splash color
-                      ),
-                      child: Text('${DegreeData.faultList[1]}\n${faultValue[1]}',
-                        textAlign: TextAlign.center
-                        ,style: TextStyle(fontSize: 20),)),
-                ],
-              ),
-              const SizedBox(height: 10,),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  OutlinedButton(
-                      onPressed: () {
-                        decreaseMark(faultValue[2]);
-                      },
-                      style: ElevatedButton.styleFrom(
+                isSelected: theSelected,//.reversed.toList(),
 
-                        padding: const EdgeInsets.all(20),
-                        backgroundColor: Colors.blue, // <-- Button color
-                        foregroundColor: Colors.black, // <-- Splash color
-                      ),
-                      child:  Text('${DegreeData.faultList[2]}\n${faultValue[2]}',
-                        textAlign: TextAlign.center
-                        ,style: TextStyle(fontSize: 20),)),
-                  const SizedBox(width: 10,),
-                  OutlinedButton(
-                      onPressed: () {
-                        decreaseMark(faultValue[3]);
-                      },
-                      style: ElevatedButton.styleFrom(
+                onPressed: (int toggleIndex) {
+                  print(toggleIndex);
+                  //theSelected=<bool>[false,true];
+                  theSelected.clear();
+                  theSelected=theSelectedAll.sublist(0,widget.questions);
+                  theSelected[0]=false;
+                  setState(() {
 
-                        padding: const EdgeInsets.all(20),
-                        backgroundColor: Colors.blue, // <-- Button color
-                        foregroundColor: Colors.black, // <-- Splash color
-                      ),
-                      child: Text('${DegreeData.faultList[3]}\n${faultValue[3]}',
-                        textAlign: TextAlign.center
-                        ,style: TextStyle(fontSize: 20),)),
-                ],
-              ),
-              const SizedBox(height: 10,),
-              OutlinedButton(
-                  onPressed: () {
-                    decreaseMark(faultValue[4]);
-                  },
-                  style: ElevatedButton.styleFrom(
+                    theSelected[toggleIndex]=true;
 
-                    padding: const EdgeInsets.all(20),
-                    backgroundColor: Colors.blue, // <-- Button color
-                    foregroundColor: Colors.black, // <-- Splash color
-                  ),
-                  child: Text('${DegreeData.faultList[4]}\n${faultValue[4]}',
-                    textAlign: TextAlign.center
-                    ,style: TextStyle(fontSize: 20),)),
-            const SizedBox(height: 20,)
 
-            ,Center(
+
+                    print(theSelected);
+                    // The button that is tapped is set to true, and the others to false.
+
+                  });
+                },
+                //color: Colors.white,
+                //fillColor: Colors.white,
+                children: txtList.reversed.toList()
+                                   ),
+
+            Center(
               child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [ OutlinedButton(
-                    onPressed: () async {
-                      if(await CheckDbase()=='Ok'){
-                        double total=0;
-                        for(int i=0;i<markController.length;i++){
-                        total+=double.parse(markController[i].text);}
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:
+                markController.asMap().entries.map((e) =>
+                    SizedBox(
+                      width: 60,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: markController[e.key],
+                        style: const TextStyle(
+                            fontSize: 20
+                        ),
 
-                        updateDb(total);
-                      }
+                      ),
+                    )
+                ).toList()
 
-                      Navigator.pop(context);
+
+
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                OutlinedButton(
+                    onPressed: () {
+                      decreaseMark(faultValue[0]);
                     },
                     style: ElevatedButton.styleFrom(
-                       padding: const EdgeInsets.all(20),
-                      backgroundColor: Colors.limeAccent, // <-- Button color
+
+                      padding: const EdgeInsets.all(8),
+                      backgroundColor: Colors.blue, // <-- Button color
                       foregroundColor: Colors.black, // <-- Splash color
                     ),
-                    child: const Text('حفظ الدرجة والعودة'
-                      ,style: TextStyle(fontSize: 20),)),],),
-            )
-            ],
-          ),
+                    child: Text('${DegreeData.faultList[0]}\n${faultValue[0]}',
+                    textAlign: TextAlign.center
+                    ,style: TextStyle(fontSize: 20),)),
+                const SizedBox(width: 10,),
+                OutlinedButton(
+                    onPressed: () {
+                      decreaseMark(faultValue[1]);
+                    },
+                    style: ElevatedButton.styleFrom(
+
+                      padding: const EdgeInsets.all(8),
+                      backgroundColor: Colors.blue, // <-- Button color
+                      foregroundColor: Colors.black, // <-- Splash color
+                    ),
+                    child: Text('${DegreeData.faultList[1]}\n${faultValue[1]}',
+                      textAlign: TextAlign.center
+                      ,style: const TextStyle(fontSize: 20),)),
+                SizedBox(width: 10,),
+
+                OutlinedButton(
+                    onPressed: () {
+                      decreaseMark(faultValue[2]);
+                    },
+                    style: ElevatedButton.styleFrom(
+
+                      padding: const EdgeInsets.all(8),
+                      backgroundColor: Colors.blue, // <-- Button color
+                      foregroundColor: Colors.black, // <-- Splash color
+                    ),
+                    child:  Text('${DegreeData.faultList[2]}\n${faultValue[2]}',
+                      textAlign: TextAlign.center
+                      ,style: TextStyle(fontSize: 20),)),
+              ],
+            ),
+            const SizedBox(height: 10,),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+
+                const SizedBox(width: 10,),
+                OutlinedButton(
+                    onPressed: () {
+                      decreaseMark(faultValue[3]);
+                    },
+                    style: ElevatedButton.styleFrom(
+
+                      padding: const EdgeInsets.all(8),
+                      backgroundColor: Colors.blue, // <-- Button color
+                      foregroundColor: Colors.black, // <-- Splash color
+                    ),
+                    child: Text('${DegreeData.faultList[3]}\n${faultValue[3]}',
+                      textAlign: TextAlign.center
+                      ,style: TextStyle(fontSize: 20),)),
+                const SizedBox(width: 10,),
+                OutlinedButton(
+                    onPressed: () {
+                      decreaseMark(faultValue[4]);
+                    },
+                    style: ElevatedButton.styleFrom(
+
+                      padding: const EdgeInsets.all(8),
+                      backgroundColor: Colors.blue, // <-- Button color
+                      foregroundColor: Colors.black, // <-- Splash color
+                    ),
+                    child: Text('${DegreeData.faultList[4]}\n${faultValue[4]}',
+                      textAlign: TextAlign.center
+                      ,style: const TextStyle(fontSize: 20),)),
+                const SizedBox(width: 10,),
+              ],
+            ),
+
+          const SizedBox(height: 20,)
+
+          ,Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [ OutlinedButton(
+                  onPressed: () async {
+                    if(await CheckDbase()=='Ok'){
+                      double total=0;
+                      for(int i=0;i<markController.length;i++){
+                      total+=double.parse(markController[i].text);}
+
+                      await updateDb(total);
+                    }
+
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                     padding: const EdgeInsets.all(8),
+                    backgroundColor: Colors.limeAccent, // <-- Button color
+                    foregroundColor: Colors.black, // <-- Splash color
+                  ),
+                  child: const Text('حفظ الدرجة والعودة'
+                    ,style: TextStyle(fontSize: 20),)),],),
+          )
+          ],
         ),
       ),
     );
@@ -326,8 +331,7 @@ class _QaryExamState extends State<QaryExam> {
     return 'Ok';
   }
 
-  Future<void> updateDb(double newdegree)
-  async {
+  Future<void> updateDb(double newdegree)  async {
     var db = await openDatabase('qary_dbase.db');
 
 
