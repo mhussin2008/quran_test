@@ -198,6 +198,7 @@ class _QaryExamState extends State<QaryExam> {
                       ExamDetailDataList.add(ExamDetailData(
                           qaryName: widget.qaryName, testName: widget.testName,
                           qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[0], degreeDec: faultValue[0]));
+                      AddSingletoDb();
                       print(ExamDetailDataList);
                       decreaseMark(faultValue[0]);
                       },
@@ -216,6 +217,7 @@ class _QaryExamState extends State<QaryExam> {
                       ExamDetailDataList.add(ExamDetailData(
                           qaryName: widget.qaryName, testName: widget.testName,
                           qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[1], degreeDec: faultValue[1]));
+                      AddSingletoDb();
                       decreaseMark(faultValue[1]);
                     },
                     style: ElevatedButton.styleFrom(
@@ -234,7 +236,7 @@ class _QaryExamState extends State<QaryExam> {
                       ExamDetailDataList.add(ExamDetailData(
                           qaryName: widget.qaryName, testName: widget.testName,
                           qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[2], degreeDec: faultValue[2]));
-
+                      AddSingletoDb();
                       decreaseMark(faultValue[2]);
                     },
                     style: ElevatedButton.styleFrom(
@@ -259,7 +261,7 @@ class _QaryExamState extends State<QaryExam> {
                       ExamDetailDataList.add(ExamDetailData(
                           qaryName: widget.qaryName, testName: widget.testName,
                           qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[3], degreeDec: faultValue[3]));
-
+                      AddSingletoDb();
                       decreaseMark(faultValue[3]);
                     },
                     style: ElevatedButton.styleFrom(
@@ -277,7 +279,7 @@ class _QaryExamState extends State<QaryExam> {
                       ExamDetailDataList.add(ExamDetailData(
                           qaryName: widget.qaryName, testName: widget.testName,
                           qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[4], degreeDec: faultValue[4]));
-
+                      AddSingletoDb();
                       decreaseMark(faultValue[4]);
                     },
                     style: ElevatedButton.styleFrom(
@@ -299,7 +301,12 @@ class _QaryExamState extends State<QaryExam> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                ElevatedButton(onPressed: (){
+                ElevatedButton(onPressed: () async {
+                  await updateSum();
+                  setState(() {
+
+                  });
+
                   print(ExamDetailDataList[0]);
 
                 }, child: Text('TEST')),
@@ -308,8 +315,11 @@ class _QaryExamState extends State<QaryExam> {
                   onPressed: () async {
                     if(await CheckDbase()=='Ok'){
                       double total=0;
+
                       for(int i=0;i<markController.length;i++){
                       total+=double.parse(markController[i].text);}
+
+                      await DelFromDb();
                         await AddAlltoDb();
                       await updateDb(total);
                     }
@@ -422,6 +432,24 @@ class _QaryExamState extends State<QaryExam> {
 
   }
 
+  Future<void> AddSingletoDb() async {
+
+    var databasesPath = await getDatabasesPath();
+    var dbFilePath = '$databasesPath/qary_dbase.db';
+    late Database db;
+    db = await openDatabase(dbFilePath);
+    //int age=int.parse(ageController.text);
+    //ExamDetailDataList[ExamDetailDataList.length-1]
+    int i=ExamDetailDataList.length-1;
+      String line=''' '${ExamDetailDataList[i].qaryName}', '${ExamDetailDataList[i].testName}'  , '${ExamDetailDataList[i].qNumber}', '${ExamDetailDataList[i].desc}', ${ExamDetailDataList[i].degreeDec}  ''';
+      String insertString =
+      '''INSERT INTO questtable ( qaryname, testname, qnumber, desc, degreedec) VALUES ( ${line} )''';
+      print(insertString);
+      await db.execute(insertString);
+
+
+  }
+
 
   Future<String> CheckDbase() async {
 
@@ -495,9 +523,55 @@ class _QaryExamState extends State<QaryExam> {
   }
 
 
+
+  Future<void> DelFromDb() async{
+    var databasesPath = await getDatabasesPath();
+    var dbFilePath = '$databasesPath/qary_dbase.db';
+    late Database db;
+    db = await openDatabase(dbFilePath);
+
+    //testname='${tname}'
+    List<Map<String,dynamic>>? gotlist =
+    await db.database.rawQuery('''DELETE FROM questtable WHERE qaryname= '${widget.qaryName}'  AND testname= '${widget.testName}' ''');
+     print('deleted row');
+
+    }
+
+
+
+  Future<void> updateSum()  async {
+    var db = await openDatabase('qary_dbase.db');
+    var dsums=[];
+    var sums=[];
+
+    sums= await db.rawQuery('''
+    SELECT SUM(degreedec) FROM questtable 
+    WHERE qaryname = '${widget.qaryName}' AND testname = '${widget.testName}'
+    GROUP BY qnumber
+    '''
+    );
+
+    print('questions'+widget.questions.toString());
+
+    for(int i=sums.length-1;i>=0;i--){
+      double x;
+      x=sums[i]['SUM(degreedec)'] as double;
+      print(widget.questions-i-1);
+      questionList[widget.questions-i-1]=100/widget.questions-x;
+      print(x.toString()+'  '+i.toString());
+    }
+
+
+
+    // print(sums);
+    // print(dsums);
+    // print(dsums.runtimeType);
+
+  }
+
+
   Future<void> updateDb(double newdegree)  async {
     var db = await openDatabase('qary_dbase.db');
-
 
     int updateCount = await db.rawUpdate('''
     UPDATE datatable 
@@ -514,7 +588,7 @@ class _QaryExamState extends State<QaryExam> {
     var db = await openDatabase('qary_dbase.db');
     deg = await db.rawQuery('''
     SELECT degree FROM datatable 
-    WHERE qaryname = '${widget.qaryName}'
+    WHERE qaryname = '${widget.qaryName}' AND testname = '${widget.testName}'
     '''
         );
     print(deg[0]);
