@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import '../Data/examDetailData.dart';
+import '../Data/ExamDetailSource.dart';
 import '../Data/DegreeData.dart';
 
 class QaryExam extends StatefulWidget {
@@ -31,6 +34,7 @@ class _QaryExamState extends State<QaryExam> {
   List<bool> theSelected=[];
   List<double> questionList=[];
   List<Text> txtList=[];
+  int SelectedToggleIndex=0;
 
   @override
   void initState()  {
@@ -40,7 +44,23 @@ class _QaryExamState extends State<QaryExam> {
     questionList=List.generate(widget.questions, (index) => mark);
     markController=List.generate(widget.questions, (index) => TextEditingController());
     markController.forEach((element) {element.text=mark.toString(); });
+
     print(widget.questions);
+    ExamDetailDataList.clear();
+    //SelectedToggleIndex=widget.questions-1;
+    CheckDbase().then((value) {
+      print(value);
+      return {
+
+        if (value=='Ok'){
+          GetFromDb().then((value) => {
+            print('Loaded all data')
+
+          })
+        }
+      };
+    });
+
     updateSelected();
 
     // CheckDbase().then((value) =>
@@ -75,6 +95,10 @@ class _QaryExamState extends State<QaryExam> {
 
   @override
   Widget build(BuildContext context) {
+    DataGridController dataGridController=DataGridController();
+    ExamDetailDataSource dataSource = ExamDetailDataSource(ExamDetailList: ExamDetailDataList);
+
+
       for( int i=0;i<markController.length;i++){
     markController[i].text=questionList[i].toString() ;}
       //updateSelected();
@@ -116,7 +140,10 @@ class _QaryExamState extends State<QaryExam> {
                 isSelected: theSelected,//.reversed.toList(),
 
                 onPressed: (int toggleIndex) {
-                  print(toggleIndex);
+                  SelectedToggleIndex=widget.questions-toggleIndex-1;
+                  print('toggleindex=${toggleIndex}  ${SelectedToggleIndex}  ');
+
+
                   //theSelected=<bool>[false,true];
                   theSelected.clear();
                   theSelected=theSelectedAll.sublist(0,widget.questions);
@@ -167,8 +194,13 @@ class _QaryExamState extends State<QaryExam> {
               children: [
                 OutlinedButton(
                     onPressed: () {
+
+                      ExamDetailDataList.add(ExamDetailData(
+                          qaryName: widget.qaryName, testName: widget.testName,
+                          qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[0], degreeDec: faultValue[0]));
+                      print(ExamDetailDataList);
                       decreaseMark(faultValue[0]);
-                    },
+                      },
                     style: ElevatedButton.styleFrom(
 
                       padding: const EdgeInsets.all(8),
@@ -181,6 +213,9 @@ class _QaryExamState extends State<QaryExam> {
                 const SizedBox(width: 10,),
                 OutlinedButton(
                     onPressed: () {
+                      ExamDetailDataList.add(ExamDetailData(
+                          qaryName: widget.qaryName, testName: widget.testName,
+                          qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[1], degreeDec: faultValue[1]));
                       decreaseMark(faultValue[1]);
                     },
                     style: ElevatedButton.styleFrom(
@@ -196,6 +231,10 @@ class _QaryExamState extends State<QaryExam> {
 
                 OutlinedButton(
                     onPressed: () {
+                      ExamDetailDataList.add(ExamDetailData(
+                          qaryName: widget.qaryName, testName: widget.testName,
+                          qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[2], degreeDec: faultValue[2]));
+
                       decreaseMark(faultValue[2]);
                     },
                     style: ElevatedButton.styleFrom(
@@ -217,6 +256,10 @@ class _QaryExamState extends State<QaryExam> {
                 const SizedBox(width: 10,),
                 OutlinedButton(
                     onPressed: () {
+                      ExamDetailDataList.add(ExamDetailData(
+                          qaryName: widget.qaryName, testName: widget.testName,
+                          qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[3], degreeDec: faultValue[3]));
+
                       decreaseMark(faultValue[3]);
                     },
                     style: ElevatedButton.styleFrom(
@@ -231,6 +274,10 @@ class _QaryExamState extends State<QaryExam> {
                 const SizedBox(width: 10,),
                 OutlinedButton(
                     onPressed: () {
+                      ExamDetailDataList.add(ExamDetailData(
+                          qaryName: widget.qaryName, testName: widget.testName,
+                          qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[4], degreeDec: faultValue[4]));
+
                       decreaseMark(faultValue[4]);
                     },
                     style: ElevatedButton.styleFrom(
@@ -251,13 +298,19 @@ class _QaryExamState extends State<QaryExam> {
           ,Center(
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: [ OutlinedButton(
+              children: [
+                ElevatedButton(onPressed: (){
+                  print(ExamDetailDataList[0]);
+
+                }, child: Text('TEST')),
+
+                OutlinedButton(
                   onPressed: () async {
                     if(await CheckDbase()=='Ok'){
                       double total=0;
                       for(int i=0;i<markController.length;i++){
                       total+=double.parse(markController[i].text);}
-
+                        await AddAlltoDb();
                       await updateDb(total);
                     }
 
@@ -270,7 +323,66 @@ class _QaryExamState extends State<QaryExam> {
                   ),
                   child: const Text('حفظ الدرجة والعودة'
                     ,style: TextStyle(fontSize: 20),)),],),
-          )
+          ),
+
+            Container(
+              height: 200,
+              //color: Colors.tealAccent,
+              child: SfDataGrid(
+                allowEditing: true,
+                allowSorting: true,
+                selectionMode: SelectionMode.single,
+                columnWidthMode: ColumnWidthMode.fill,
+                isScrollbarAlwaysShown: true,
+                gridLinesVisibility: GridLinesVisibility.both,
+                headerGridLinesVisibility: GridLinesVisibility.both,
+                controller: dataGridController,
+                source: dataSource,
+                // onCellTap: (cellDetails){
+                //     // setState(() {
+                //     //
+                //       print(cellDetails.rowColumnIndex.rowIndex-1);
+                //       int x=(QaryList[cellDetails.rowColumnIndex.rowIndex-1].questions);
+                //     //});
+                //   setState(() {
+                //     if(x==4){theSelected=[true,false];}
+                //     else{theSelected=[false,true];}
+                //   });
+                //     //print(cellDetails.rowColumnIndex.rowIndex);
+                // },
+                columns: <GridColumn>[
+                  GridColumn(
+
+                      columnName: 'qnumber',
+                      label: Container(
+                          color: Colors.cyanAccent,
+                          padding: EdgeInsets.all(4.0),
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            'رقم السؤال',
+
+                          ))),
+                  GridColumn(
+
+                      columnName: 'desc',
+                      label: Container(
+                          color: Colors.cyanAccent,
+                          padding: EdgeInsets.all(4.0),
+                          alignment: Alignment.centerRight,
+                          child: Text('وصف الخطأ '))),
+
+                  GridColumn(
+                      columnName: 'degreedec',
+                      label: Container(
+                          color: Colors.cyanAccent,
+                          padding: EdgeInsets.all(4.0),
+                          alignment: Alignment.centerRight,
+                          child: Text('الدرجة')))
+                  ,
+
+                ].reversed.toList(),
+              ),
+            ),
           ],
         ),
       ),
@@ -291,6 +403,26 @@ class _QaryExamState extends State<QaryExam> {
     });
   }
 
+
+  Future<void> AddAlltoDb() async {
+
+    var databasesPath = await getDatabasesPath();
+    var dbFilePath = '$databasesPath/qary_dbase.db';
+    late Database db;
+    db = await openDatabase(dbFilePath);
+    //int age=int.parse(ageController.text);
+    //ExamDetailDataList[ExamDetailDataList.length-1]
+    for(int i=0;i<ExamDetailDataList.length;i++){
+    String line=''' '${ExamDetailDataList[i].qaryName}', '${ExamDetailDataList[i].testName}'  , '${ExamDetailDataList[i].qNumber}', '${ExamDetailDataList[i].desc}', ${ExamDetailDataList[i].degreeDec}  ''';
+    String insertString =
+    '''INSERT INTO questtable ( qaryname, testname, qnumber, desc, degreedec) VALUES ( ${line} )''';
+    print(insertString);
+    await db.execute(insertString);
+    }
+
+  }
+
+
   Future<String> CheckDbase() async {
 
     var databasesPath = await getDatabasesPath();
@@ -309,16 +441,19 @@ class _QaryExamState extends State<QaryExam> {
       return 'No';
     }
     var tables = await db
-        .rawQuery('SELECT * FROM sqlite_master WHERE name="testtable";');
+        .rawQuery('SELECT * FROM sqlite_master WHERE name="questtable";');
 
     if (tables.isEmpty) {
       // Create the table
       print('no such table');
       try {
         await db.execute('''
-        create table testtable (
-        testname TEXT NOT NULL UNIQUE,
-        testdate TEXT 
+        create table questtable (
+        qaryname TEXT NOT NULL ,
+        testname TEXT NOT NULL,
+        qnumber TEXT,
+        desc TEXT,
+        degreedec REAL 
        )''');
       } catch (err) {
         if (err.toString().contains('DatabaseException') == true) {
@@ -330,6 +465,35 @@ class _QaryExamState extends State<QaryExam> {
     }
     return 'Ok';
   }
+
+  Future<void> GetFromDb() async{
+    var databasesPath = await getDatabasesPath();
+    var dbFilePath = '$databasesPath/qary_dbase.db';
+    late Database db;
+    db = await openDatabase(dbFilePath);
+
+    //testname='${tname}'
+    List<Map<String,dynamic>>? gotlist =
+    await db.database.rawQuery('''SELECT * FROM questtable WHERE qaryname= '${widget.qaryName}'  AND testname= '${widget.testName}' ''');
+    print(gotlist);
+    setState(() {
+      ExamDetailDataList.clear();
+    });
+    if(gotlist.isNotEmpty){
+
+      setState(() {
+        gotlist.forEach((e) {
+          {
+            //QaryList.add(QaryData.fromJson(e));
+            ExamDetailDataList.add(ExamDetailData.fromFields(e['qaryname'], e['testname'], e['qnumber'], e['desc'], e['degreedec']));
+          };
+        });
+        print(ExamDetailDataList);
+      });}
+    else{print('empty data list');
+  }
+  }
+
 
   Future<void> updateDb(double newdegree)  async {
     var db = await openDatabase('qary_dbase.db');
