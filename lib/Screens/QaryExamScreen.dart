@@ -322,16 +322,16 @@ print('init State');
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                ElevatedButton(onPressed: () async {
-                  await updateSum();
-                  calcTotal();
-                  setState(() {
-
-                  });
-
-                  print(ExamDetailDataList[0]);
-
-                }, child: Text('TEST')),
+                // ElevatedButton(onPressed: () async {
+                //   await updateSum();
+                //   calcTotal();
+                //   setState(() {
+                //
+                //   });
+                //
+                //   print(ExamDetailDataList[0]);
+                //
+                // }, child: Text('TEST')),
                 const SizedBox(width: 10,),
                 Text(totalMark.toString(),
                   style: const TextStyle(
