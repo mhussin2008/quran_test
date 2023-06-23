@@ -23,7 +23,7 @@ class QaryExam extends StatefulWidget {
 class _QaryExamState extends State<QaryExam> {
 
 
-
+  double totalMark=0;
   double mark=0 ;
   List<TextEditingController> markController=[];
   List<double> faultValue=DegreeData.degreeTable??[2.0,2.0,2.0,2.0,2.0];
@@ -39,7 +39,7 @@ class _QaryExamState extends State<QaryExam> {
   @override
   void initState()  {
     // TODO: implement initState
-
+print('init State');
     mark=100.0/widget.questions;
     questionList=List.generate(widget.questions, (index) => mark);
     markController=List.generate(widget.questions, (index) => TextEditingController());
@@ -62,6 +62,14 @@ class _QaryExamState extends State<QaryExam> {
     });
 
     updateSelected();
+    updateSum().then((value) {
+      calcTotal();
+      setState(() {
+
+      });
+      return null;
+    });
+
 
     // CheckDbase().then((value) =>
     // {
@@ -81,6 +89,12 @@ class _QaryExamState extends State<QaryExam> {
 
   }
 
+  @override
+  void dispose() {
+    print('dispose: $this');
+    super.dispose();
+  }
+  
   void updateSelected() {
     theSelected.clear();
     txtList.clear();
@@ -101,6 +115,7 @@ class _QaryExamState extends State<QaryExam> {
 
       for( int i=0;i<markController.length;i++){
     markController[i].text=questionList[i].toString() ;}
+      calcTotal();
       //updateSelected();
 
 
@@ -196,11 +211,13 @@ class _QaryExamState extends State<QaryExam> {
                     onPressed: () {
 
                       ExamDetailDataList.add(ExamDetailData(
-                          qaryName: widget.qaryName, testName: widget.testName,
+                          qaryName: widget.qaryName,
+                          testName: widget.testName,
                           qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[0], degreeDec: faultValue[0]));
                       AddSingletoDb();
                       print(ExamDetailDataList);
                       decreaseMark(faultValue[0]);
+                      calcTotal();
                       },
                     style: ElevatedButton.styleFrom(
 
@@ -219,6 +236,7 @@ class _QaryExamState extends State<QaryExam> {
                           qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[1], degreeDec: faultValue[1]));
                       AddSingletoDb();
                       decreaseMark(faultValue[1]);
+                      calcTotal();
                     },
                     style: ElevatedButton.styleFrom(
 
@@ -238,6 +256,7 @@ class _QaryExamState extends State<QaryExam> {
                           qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[2], degreeDec: faultValue[2]));
                       AddSingletoDb();
                       decreaseMark(faultValue[2]);
+                      calcTotal();
                     },
                     style: ElevatedButton.styleFrom(
 
@@ -263,6 +282,7 @@ class _QaryExamState extends State<QaryExam> {
                           qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[3], degreeDec: faultValue[3]));
                       AddSingletoDb();
                       decreaseMark(faultValue[3]);
+                      calcTotal();
                     },
                     style: ElevatedButton.styleFrom(
 
@@ -281,6 +301,7 @@ class _QaryExamState extends State<QaryExam> {
                           qNumber: qNamesAll[SelectedToggleIndex], desc: DegreeData.faultList[4], degreeDec: faultValue[4]));
                       AddSingletoDb();
                       decreaseMark(faultValue[4]);
+                      calcTotal();
                     },
                     style: ElevatedButton.styleFrom(
 
@@ -303,6 +324,7 @@ class _QaryExamState extends State<QaryExam> {
               children: [
                 ElevatedButton(onPressed: () async {
                   await updateSum();
+                  calcTotal();
                   setState(() {
 
                   });
@@ -310,18 +332,22 @@ class _QaryExamState extends State<QaryExam> {
                   print(ExamDetailDataList[0]);
 
                 }, child: Text('TEST')),
+                const SizedBox(width: 10,),
+                Text(totalMark.toString(),
+                  style: const TextStyle(
+                    fontSize: 20
+                  ),
+                ),
+                const SizedBox(width: 10,),
 
                 OutlinedButton(
                   onPressed: () async {
                     if(await CheckDbase()=='Ok'){
-                      double total=0;
-
-                      for(int i=0;i<markController.length;i++){
-                      total+=double.parse(markController[i].text);}
+                      calcTotal();
 
                       await DelFromDb();
                         await AddAlltoDb();
-                      await updateDb(total);
+                      await updateDb(totalMark);
                     }
 
                     Navigator.pop(context);
@@ -595,6 +621,20 @@ class _QaryExamState extends State<QaryExam> {
     print(deg[0]['degree'].runtimeType);
 
     return deg[0]['degree'];
+  }
+
+  void calcTotal() {
+    double total=0;
+
+    for(int i=0;i<markController.length;i++){
+      total+=double.parse(markController[i].text);
+      print(total);
+    }
+
+    totalMark=total;
+    setState(() {
+
+    });
   }
 
 
