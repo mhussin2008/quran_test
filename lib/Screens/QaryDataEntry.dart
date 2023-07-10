@@ -118,7 +118,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
                             ageController.text.isNotEmpty) {
                           setState(()  {
                             QaryList.add(QaryData.fromFields(nameController.text,
-                                int.parse(ageController.text),100,widget.testName,getQuestNum(theSelected[0])));
+                                int.parse(ageController.text),100.0,widget.testName,getQuestNum(theSelected[0])));
                               });
                           String retVal=await  CheckDbase();
                           if (retVal=='Ok'){
@@ -411,7 +411,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
     late Database db;
     db = await openDatabase(dbFilePath);
     int age=int.parse(ageController.text);
-    String line=''' '${nameController.text}', $age , 100, '${widget.testName}', ${getQuestNum(theSelected[0])}  ''';
+    String line=''' '${nameController.text}', $age , 100.0, '${widget.testName}', ${getQuestNum(theSelected[0])}  ''';
     String insertString =
     '''INSERT INTO datatable ( qaryname, qaryage, degree, testname, questions) VALUES ( ${line} )''';
     print(insertString);
@@ -438,6 +438,7 @@ class _qaryDataEntryState extends State<qaryDataEntry> {
         {
           //QaryList.add(QaryData.fromJson(e));
           //int qn=getQuestNum(theSelected[0]);
+          print(e);
          QaryList.add(QaryData.fromFields(e['qaryname'],e['qaryage'],e['degree'],e['testname'], e['questions']  ));
       };
     });
